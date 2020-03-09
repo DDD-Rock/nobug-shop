@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="nobug-shop-eureka-server" />
+        <module name="nobug-shop-zuul" />
+        <module name="nobug-shop-web" />
+        <module name="nobug-shop-common" />
+        <module name="nobug-shop-mapper" />
+        <module name="nobug-shop-service" />
+        <module name="nobug-shop-cache" />
+        <module name="nobug-shop-entity" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="nobug-shop-basic" target="1.5" />
+      <module name="nobug-shop-cache" target="1.5" />
+      <module name="nobug-shop-common" target="1.5" />
+      <module name="nobug-shop-entity" target="1.5" />
+      <module name="nobug-shop-eureka-server" target="1.8" />
+      <module name="nobug-shop-mapper" target="1.5" />
+      <module name="nobug-shop-service" target="1.5" />
+      <module name="nobug-shop-web" target="1.5" />
+      <module name="nobug-shop-zuul" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="nobug-shop-eureka-server" options="-parameters" />
+      <module name="nobug-shop-zuul" options="-parameters" />
+    </option>
+  </component>
+</project>

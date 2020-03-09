@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/nobug-shop.iml" filepath="$PROJECT_DIR$/.idea/nobug-shop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nobug-shop-basic/nobug-shop-basic.iml" filepath="$PROJECT_DIR$/nobug-shop-basic/nobug-shop-basic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nobug-shop-cache/nobug-shop-cache.iml" filepath="$PROJECT_DIR$/nobug-shop-cache/nobug-shop-cache.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nobug-shop-basic/nobug-shop-common/nobug-shop-common.iml" filepath="$PROJECT_DIR$/nobug-shop-basic/nobug-shop-common/nobug-shop-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nobug-shop-basic/nobug-shop-entity/nobug-shop-entity.iml" filepath="$PROJECT_DIR$/nobug-shop-basic/nobug-shop-entity/nobug-shop-entity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nobug-shop-eureka-server/nobug-shop-eureka-server.iml" filepath="$PROJECT_DIR$/nobug-shop-eureka-server/nobug-shop-eureka-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nobug-shop-basic/nobug-shop-mapper/nobug-shop-mapper.iml" filepath="$PROJECT_DIR$/nobug-shop-basic/nobug-shop-mapper/nobug-shop-mapper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nobug-shop-service/nobug-shop-service.iml" filepath="$PROJECT_DIR$/nobug-shop-service/nobug-shop-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nobug-shop-web/nobug-shop-web.iml" filepath="$PROJECT_DIR$/nobug-shop-web/nobug-shop-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nobug-shop-zuul/nobug-shop-zuul.iml" filepath="$PROJECT_DIR$/nobug-shop-zuul/nobug-shop-zuul.iml" />
+    </modules>
+  </component>
+</project>
