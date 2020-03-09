@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="nobug-shop-eureka-server" />
         <module name="nobug-shop-zuul" />
+        <module name="nobug-shop-dependencies" />
         <module name="nobug-shop-web" />
         <module name="nobug-shop-common" />
         <module name="nobug-shop-mapper" />
@@ -20,6 +21,7 @@
       <module name="nobug-shop-basic" target="1.5" />
       <module name="nobug-shop-cache" target="1.5" />
       <module name="nobug-shop-common" target="1.5" />
+      <module name="nobug-shop-dependencies" target="1.8" />
       <module name="nobug-shop-entity" target="1.5" />
       <module name="nobug-shop-eureka-server" target="1.8" />
       <module name="nobug-shop-mapper" target="1.5" />
@@ -30,6 +32,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="nobug-shop-dependencies" options="-parameters" />
       <module name="nobug-shop-eureka-server" options="-parameters" />
       <module name="nobug-shop-zuul" options="-parameters" />
     </option>

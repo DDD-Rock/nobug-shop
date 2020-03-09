@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/nobug-shop-basic/nobug-shop-basic.iml" filepath="$PROJECT_DIR$/nobug-shop-basic/nobug-shop-basic.iml" />
       <module fileurl="file://$PROJECT_DIR$/nobug-shop-cache/nobug-shop-cache.iml" filepath="$PROJECT_DIR$/nobug-shop-cache/nobug-shop-cache.iml" />
       <module fileurl="file://$PROJECT_DIR$/nobug-shop-basic/nobug-shop-common/nobug-shop-common.iml" filepath="$PROJECT_DIR$/nobug-shop-basic/nobug-shop-common/nobug-shop-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nobug-shop-basic/nobug-shop-dependencies/nobug-shop-dependencies.iml" filepath="$PROJECT_DIR$/nobug-shop-basic/nobug-shop-dependencies/nobug-shop-dependencies.iml" />
       <module fileurl="file://$PROJECT_DIR$/nobug-shop-basic/nobug-shop-entity/nobug-shop-entity.iml" filepath="$PROJECT_DIR$/nobug-shop-basic/nobug-shop-entity/nobug-shop-entity.iml" />
       <module fileurl="file://$PROJECT_DIR$/nobug-shop-eureka-server/nobug-shop-eureka-server.iml" filepath="$PROJECT_DIR$/nobug-shop-eureka-server/nobug-shop-eureka-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/nobug-shop-basic/nobug-shop-mapper/nobug-shop-mapper.iml" filepath="$PROJECT_DIR$/nobug-shop-basic/nobug-shop-mapper/nobug-shop-mapper.iml" />

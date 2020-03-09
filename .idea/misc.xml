@@ -16,6 +16,7 @@
         <option value="$PROJECT_DIR$/nobug-shop-zuul/pom.xml" />
         <option value="$PROJECT_DIR$/nobug-shop-service/pom.xml" />
         <option value="$PROJECT_DIR$/nobug-shop-web/pom.xml" />
+        <option value="$PROJECT_DIR$/nobug-shop-basic/nobug-shop-dependencies/pom.xml" />
       </list>
     </option>
   </component>
