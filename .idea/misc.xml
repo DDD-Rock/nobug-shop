@@ -13,10 +13,10 @@
         <option value="$PROJECT_DIR$/nobug-shop-basic/nobug-shop-mapper/pom.xml" />
         <option value="$PROJECT_DIR$/nobug-shop-basic/pom.xml" />
         <option value="$PROJECT_DIR$/nobug-shop-eureka-server/pom.xml" />
-        <option value="$PROJECT_DIR$/nobug-shop-zuul/pom.xml" />
         <option value="$PROJECT_DIR$/nobug-shop-service/pom.xml" />
         <option value="$PROJECT_DIR$/nobug-shop-web/pom.xml" />
         <option value="$PROJECT_DIR$/nobug-shop-basic/nobug-shop-dependencies/pom.xml" />
+        <option value="$PROJECT_DIR$/nobug-shop-zuul/pom.xml" />
       </list>
     </option>
   </component>
