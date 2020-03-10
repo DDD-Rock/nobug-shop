@@ -4,7 +4,15 @@ spring:
     username:
     password:
     default-encoding: utf-8
+  application:
+    name: nobug-shop-service-send-mail
 
-# TODO –Ë“™≈‰÷√ribbon
 server:
   port: 8762
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+# todo redis≈‰÷√

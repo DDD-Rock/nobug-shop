@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/nobug-shop-basic/nobug-shop-dependencies" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/nobug-shop-eureka-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/nobug-shop-service/nobug-shop-service-payment" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/nobug-shop-service/nobug-shop-service-send-mail" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/nobug-shop-zuul" charset="UTF-8" />
   </component>
