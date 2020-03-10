@@ -3,7 +3,8 @@ package com.nobug;
 
 public interface ISearchService {
 
-    ResultBean searchByKeyword(String keyword);
+    ResultBean insertSolr();
 
-    ResultBean addroduct(Long pid);
+
+//    ResultBean addroduct(Long pid);
 }
