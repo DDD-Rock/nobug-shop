@@ -1,4 +1,5 @@
-# nobug-shop
+# nobug-shop 成氏集团项目组
+## 公告栏
 ```
 为了发扬秦始皇统一度量衡的精神
 
@@ -22,15 +23,21 @@
         
 注意：删掉后SpringCloud会统一使用Hoxton.SR1！
 如果是默认生成Hoxton.SR3,可能导致无法自动导config server包的情况。
-        
+```
+## 端口占用记录汇总：
+```
+service:
+    ribbon server 8761
+    send mail service 8762
+    
+    
+web:
+    rigester web 8081
+    
+
+
+
 
 祝各位好运，肝就完了！
 
 ```
-一次握手
-
-二次握手
-
-三次握手
-
-成功！

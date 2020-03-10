@@ -14,6 +14,7 @@
         <module name="nobug-shop-service" />
         <module name="nobug-shop-common" />
         <module name="nobug-shop-entity" />
+        <module name="nobug-shop-service-send-mail" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -25,6 +26,7 @@
       <module name="nobug-shop-eureka-server" target="1.8" />
       <module name="nobug-shop-mapper" target="1.5" />
       <module name="nobug-shop-service" target="1.5" />
+      <module name="nobug-shop-service-send-mail" target="1.8" />
       <module name="nobug-shop-web" target="1.5" />
       <module name="nobug-shop-zuul" target="1.8" />
     </bytecodeTargetLevel>
@@ -33,6 +35,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="nobug-shop-dependencies" options="-parameters" />
       <module name="nobug-shop-eureka-server" options="-parameters" />
+      <module name="nobug-shop-service-send-mail" options="-parameters" />
       <module name="nobug-shop-zuul" options="-parameters" />
     </option>
   </component>

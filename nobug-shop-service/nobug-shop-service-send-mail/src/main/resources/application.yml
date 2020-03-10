@@ -1,0 +1,10 @@
+spring:
+  mail:
+    host: smtp.qq.com
+    username:
+    password:
+    default-encoding: utf-8
+
+# TODO ĞèÒªÅäÖÃribbon
+server:
+  port: 8762
