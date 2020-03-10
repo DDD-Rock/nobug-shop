@@ -7,13 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="nobug-shop-eureka-server" />
+        <module name="nobug-shop-cache" />
         <module name="nobug-shop-zuul" />
-        <module name="nobug-shop-dependencies" />
         <module name="nobug-shop-web" />
-        <module name="nobug-shop-common" />
         <module name="nobug-shop-mapper" />
         <module name="nobug-shop-service" />
-        <module name="nobug-shop-cache" />
+        <module name="nobug-shop-common" />
         <module name="nobug-shop-entity" />
       </profile>
     </annotationProcessing>
