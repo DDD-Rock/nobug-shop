@@ -27,7 +27,7 @@
 ## 端口占用记录汇总：
 ```
 service:
-    ribbon server 8761
+    eureka server 8761
     send mail service 8762
     
     
