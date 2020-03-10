@@ -29,6 +29,7 @@
 service:
     eureka server 8761
     send mail service 8762
+    payment 8765
     
     
 web:
