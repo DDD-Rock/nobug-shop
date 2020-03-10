@@ -6,15 +6,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="nobug-shop-service-search" />
+        <module name="nobug-shop-entity" />
         <module name="nobug-shop-eureka-server" />
-        <module name="nobug-shop-cache" />
-        <module name="nobug-shop-zuul" />
+        <module name="nobug-shop-common" />
         <module name="nobug-shop-web" />
         <module name="nobug-shop-service-payment" />
         <module name="nobug-shop-mapper" />
         <module name="nobug-shop-service" />
-        <module name="nobug-shop-common" />
-        <module name="nobug-shop-entity" />
+        <module name="nobug-shop-cache" />
+        <module name="nobug-shop-zuul" />
         <module name="nobug-shop-service-send-mail" />
       </profile>
     </annotationProcessing>
@@ -28,6 +29,7 @@
       <module name="nobug-shop-mapper" target="1.5" />
       <module name="nobug-shop-service" target="1.5" />
       <module name="nobug-shop-service-payment" target="1.8" />
+      <module name="nobug-shop-service-search" target="1.8" />
       <module name="nobug-shop-service-send-mail" target="1.8" />
       <module name="nobug-shop-web" target="1.5" />
       <module name="nobug-shop-zuul" target="1.8" />
@@ -38,6 +40,7 @@
       <module name="nobug-shop-dependencies" options="-parameters" />
       <module name="nobug-shop-eureka-server" options="-parameters" />
       <module name="nobug-shop-service-payment" options="-parameters" />
+      <module name="nobug-shop-service-search" options="-parameters" />
       <module name="nobug-shop-service-send-mail" options="-parameters" />
       <module name="nobug-shop-zuul" options="-parameters" />
     </option>
