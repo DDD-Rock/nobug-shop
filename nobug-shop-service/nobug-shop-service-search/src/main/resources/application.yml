@@ -1,0 +1,19 @@
+
+spring:
+  application:
+    name: nobug-shop-service-search
+  data:
+    solr:
+      host: http://47.111.247.209:8983/solr/ik_core
+
+
+
+server:
+  port: 7777
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/

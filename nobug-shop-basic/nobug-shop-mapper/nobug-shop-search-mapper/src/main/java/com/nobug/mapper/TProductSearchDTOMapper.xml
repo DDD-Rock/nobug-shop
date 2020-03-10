@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.search.api.mapper.TProductSearchDTOMapper">
+    <resultMap id="BaseResultMap" type="com.qf.search.api.entity.TProductSearchDTO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="t_product_name" jdbcType="VARCHAR" property="tProductName"/>
+        <result column="t_product_sale_price" jdbcType="DECIMAL" property="tProductSalePrice"/>
+        <result column="t_product_pimage" jdbcType="VARCHAR" property="tProductPimage"/>
+        <result column="t_product_pdesc" jdbcType="VARCHAR" property="tProductPdesc"/>
+    </resultMap>
+
+
+
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+       SELECT
+          a.pid AS id,
+          a.pname AS t_product_name,
+          a.sale_price AS t_product_sale_price,
+          a.pimage AS t_product_pimage,
+          b.pdesc AS t_product_pdesc
+        FROM
+          t_product a,
+          t_product_desc b
+        WHERE a.pid = b.`pid`
+            and a.pid=#{id,jdbcType=BIGINT}
+     </select>
+
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+          a.pid AS id,
+          a.pname AS t_product_name,
+          a.sale_price AS t_product_sale_price,
+          a.pimage AS t_product_pimage,
+          b.pdesc AS t_product_pdesc
+        FROM
+          t_product a
+          LEFT JOIN t_product_desc b
+            ON a.pid = b.`pid`
+     </select>
+
+
+</mapper>
