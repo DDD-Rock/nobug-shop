@@ -34,6 +34,7 @@ service:
     
 web:
     rigester web 8081
+    order web 80
     
 
 
