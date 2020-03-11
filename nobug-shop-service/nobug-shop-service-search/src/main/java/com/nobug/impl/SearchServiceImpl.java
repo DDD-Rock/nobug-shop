@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SearchServiceImpl implements ISearchService {
@@ -27,8 +28,6 @@ public class SearchServiceImpl implements ISearchService {
     @Autowired
     private SolrClient solrClient;
 
-    @Value("@{imageService}")
-    private String imageService;
 
     @Autowired
     private TProductSearchDTOMapper tProductSearchDTOMapper;
@@ -36,6 +35,8 @@ public class SearchServiceImpl implements ISearchService {
 
     @Override
     public ResultBean insertSolr() {
+
+
 
         ResultBean bean = new ResultBean();
 
@@ -70,18 +71,24 @@ public class SearchServiceImpl implements ISearchService {
     @Override
     public ResultBean searchByKeyword(String keyWord) {
 
+        String url = "http://localhost/";
+
         ResultBean bean = new ResultBean();
 
-        //设置查询的参数，并封装到solrQuery对象
         SolrQuery solrQuery = new SolrQuery();
 
-        //设置复制域
+        //赋值域
         solrQuery.setQuery(keyWord);
-        solrQuery.set("df","t_item_keywords");
+        solrQuery.set("df", "t_item_keywords");
 
         //分页
         solrQuery.setStart(0);
-        solrQuery.setRows(10);
+        solrQuery.setRows(2);
+        //开启高亮现实
+        solrQuery.setHighlight(true);
+        solrQuery.addHighlightField("t_product_name");
+        solrQuery.setHighlightSimplePre("<span style='color:red'>");
+        solrQuery.setHighlightSimplePost("</span>");
 
         //将参数提交给solr，查询结果
         QueryResponse query = null;
@@ -96,24 +103,48 @@ public class SearchServiceImpl implements ISearchService {
         //解析结果
         ArrayList<TProductSearchDTO> list = new ArrayList<>();
         SolrDocumentList results = query.getResults();
-        for (SolrDocument r: results) {
+
+        //获取高亮
+        Map<String, Map<String, List<String>>> highlighting = query.getHighlighting();
+
+        for (SolrDocument result : results) {
 
             TProductSearchDTO product = new TProductSearchDTO();
 
+            String id_str = result.getFieldValue("id").toString();
 
-            product.setId(Long.parseLong(r.getFieldValue("id").toString()));
-            product.settProductName(r.getFieldValue("t_product_name").toString());
-            product.settProductPimage(r.getFieldValue("t_product_pimage").toString());
-            String s = r.getFieldValue("t_product_sale_price").toString();
-            double v = Double.parseDouble(s);
-            product.settProductSalePrice(v);
-            product.settProductPdesc((String) r.getFieldValue("t_product_pdesc"));
+
+            product.setId(Long.parseLong(id_str));
+            //高亮封装
+            Map<String, List<String>> id = highlighting.get(id_str);
+            List<String> t_product_names = id.get("t_product_name");
+            //获取高亮字段值
+            String t_product_name = t_product_names.get(0);
+            product.settProductName(t_product_name);
+            product.settProductSalePrice(Double.parseDouble(result.getFieldValue("t_product_sale_price").toString()));
+            //判断图片和样式是否为空
+            String t_product_pimage = result.getFieldValue("t_product_pimage").toString();
+            if(t_product_pimage == null){
+                t_product_pimage = "";
+            }else{
+                t_product_pimage += url;
+            }
+            product.settProductPimage(t_product_pimage);
+
+            String t_product_pdesc = (String)result.getFieldValue("t_product_pdesc");
+            if(t_product_pdesc == null){
+                t_product_pdesc ="";
+            }
+            product.settProductPdesc(t_product_pdesc);
+
 
             list.add(product);
+
 
         }
         bean.setData(list);
 
         return bean;
     }
-}
+
+    }
