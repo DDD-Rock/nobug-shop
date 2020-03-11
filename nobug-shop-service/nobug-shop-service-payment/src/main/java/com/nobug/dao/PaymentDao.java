@@ -1,6 +1,6 @@
 package com.nobug.dao;
 
-import com.nobug.entity.Payment;
+import entity.Payment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

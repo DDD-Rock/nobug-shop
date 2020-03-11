@@ -1,7 +1,7 @@
 package com.nobug.service;
 
 
-import com.nobug.entity.Payment;
+import entity.Payment;
 
 
 /**

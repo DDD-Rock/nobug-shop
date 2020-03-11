@@ -2,7 +2,7 @@ package com.nobug.service.impl;
 
 import com.github.wxpay.sdk.WXPay;
 import com.nobug.config.WeiXinPayConfig;
-import com.nobug.entity.Payment;
+import entity.Payment;
 import com.nobug.service.WeiXinPayService;
 import org.springframework.stereotype.Service;
 

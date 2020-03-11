@@ -38,7 +38,8 @@ web:
     order web 80
     search web 7778 
    
-    
+mapper:
+    user info mapper:8100
 
 
 

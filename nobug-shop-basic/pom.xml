@@ -10,7 +10,6 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>nobug-shop-common</module>
-        <module>nobug-shop-entity</module>
         <module>nobug-shop-mapper</module>
     </modules>
 

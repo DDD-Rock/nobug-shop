@@ -2,7 +2,7 @@ package com.nobug.service.impl;
 
 
 import com.nobug.dao.PaymentDao;
-import com.nobug.entity.Payment;
+import entity.Payment;
 import com.nobug.service.PaymentService;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
 package com.nobug.controller;
 
-import com.nobug.entity.CommonResult;
-import com.nobug.entity.Payment;
+import entity.CommonResult;
+import entity.Payment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;

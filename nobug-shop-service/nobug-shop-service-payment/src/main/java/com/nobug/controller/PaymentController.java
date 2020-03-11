@@ -1,8 +1,8 @@
 package com.nobug.controller;
 
 
-import com.nobug.entity.CommonResult;
-import com.nobug.entity.Payment;
+import entity.CommonResult;
+import entity.Payment;
 import com.nobug.service.PaymentService;
 import com.nobug.service.WeiXinPayService;
 import lombok.extern.slf4j.Slf4j;

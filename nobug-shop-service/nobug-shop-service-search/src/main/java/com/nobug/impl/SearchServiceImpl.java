@@ -3,7 +3,7 @@ package com.nobug.impl;
 
 import com.nobug.ISearchService;
 import com.nobug.ResultBean;
-import com.nobug.entity.TProductSearchDTO;
+import entity.TProductSearchDTO;
 import com.nobug.mapper.TProductSearchDTOMapper;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -13,7 +13,6 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
