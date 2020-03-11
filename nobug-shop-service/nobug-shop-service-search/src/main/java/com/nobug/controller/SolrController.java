@@ -5,6 +5,7 @@ import com.nobug.impl.SearchServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -21,5 +22,14 @@ public class SolrController {
 
         return bean;
 
+    }
+
+    @RequestMapping("/Keyword")
+    @ResponseBody
+    public ResultBean searchByKeyword(@RequestParam String keyWord){
+
+        ResultBean bean = service.searchByKeyword(keyWord);
+
+        return bean;
     }
 }

@@ -5,6 +5,5 @@ public interface ISearchService {
 
     ResultBean insertSolr();
 
-
-//    ResultBean addroduct(Long pid);
+    ResultBean searchByKeyword(String keyword);
 }

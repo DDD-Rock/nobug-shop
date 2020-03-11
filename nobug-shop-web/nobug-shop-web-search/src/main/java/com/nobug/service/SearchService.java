@@ -26,5 +26,14 @@ public class SearchService {
 
     }
 
+    public ResultBean searchByKeyword(String keyWord){
+
+        String url = "http://nobug-shop-service-search/Keyword?keyWord="+keyWord;
+
+        ResultBean bean = restTemplate.getForObject(url, ResultBean.class);
+
+        return bean;
+    }
+
 
 }
