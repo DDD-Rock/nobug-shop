@@ -20,14 +20,14 @@ public class TProductSearchDTO implements Serializable {
 
     private Long id;
     private String tProductName;
-    private BigDecimal tProductSalePrice;
+    private Double tProductSalePrice;
     private String tProductPimage;
     private String tProductPdesc;
 
     public TProductSearchDTO() {
     }
 
-    public TProductSearchDTO(Long id, String tProductName, BigDecimal tProductSalePrice, String tProductPimage, String tProductPdesc) {
+    public TProductSearchDTO(Long id, String tProductName, Double tProductSalePrice, String tProductPimage, String tProductPdesc) {
         this.id = id;
         this.tProductName = tProductName;
         this.tProductSalePrice = tProductSalePrice;
@@ -51,11 +51,11 @@ public class TProductSearchDTO implements Serializable {
         this.tProductName = tProductName;
     }
 
-    public BigDecimal gettProductSalePrice() {
+    public Double gettProductSalePrice() {
         return tProductSalePrice;
     }
 
-    public void settProductSalePrice(BigDecimal tProductSalePrice) {
+    public void settProductSalePrice(Double tProductSalePrice) {
         this.tProductSalePrice = tProductSalePrice;
     }
 

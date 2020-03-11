@@ -11,21 +11,6 @@
 
 
 
-<!--    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">-->
-<!--       SELECT-->
-<!--          a.pid AS id,-->
-<!--          a.pname AS t_product_name,-->
-<!--          a.sale_price AS t_product_sale_price,-->
-<!--          a.pimage AS t_product_pimage,-->
-<!--          b.pdesc AS t_product_pdesc-->
-<!--        FROM-->
-<!--          t_product a,-->
-<!--          t_product_desc b-->
-<!--        WHERE a.pid = b.`pid`-->
-<!--            and a.pid=#{id,jdbcType=BIGINT}-->
-<!--     </select>-->
-
-
     <select id="selectAll" resultMap="BaseResultMap">
         SELECT
           a.pid AS id,

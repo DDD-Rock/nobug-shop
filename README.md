@@ -30,11 +30,14 @@ service:
     eureka server 8761
     send mail service 8762
     payment 8765
+    service search 7777 
     
     
 web:
     rigester web 8081
     order web 80
+    search web 7778 
+   
     
 
 

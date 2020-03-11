@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: nobug-shop-web-search
+
+server:
+  port: 7778
+
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/

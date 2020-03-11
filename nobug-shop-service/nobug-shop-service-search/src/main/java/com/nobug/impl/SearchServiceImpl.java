@@ -9,11 +9,13 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class SearchServiceImpl implements ISearchService {
 
 
@@ -29,6 +31,8 @@ public class SearchServiceImpl implements ISearchService {
 
     @Override
     public ResultBean insertSolr() {
+
+        ResultBean bean = new ResultBean();
 
         //获取查询的数据
         List<TProductSearchDTO> list = tProductSearchDTOMapper.selectAll();
@@ -47,16 +51,14 @@ public class SearchServiceImpl implements ISearchService {
         try {
             solrClient.add(docs);
             solrClient.commit();
+            bean.setMessage("插入solr成功");
 
         } catch (Exception e) {
+            bean.setMessage("插入solr失败");
             e.printStackTrace();
-        } finally {
-            try {
-                solrClient.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-        return null;
+
+
+        return bean;
     }
 }

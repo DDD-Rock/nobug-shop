@@ -9,5 +9,4 @@ public interface TProductSearchDTOMapper {
 
     List<TProductSearchDTO> selectAll();
 
-//    TProductSearchDTO selectById(Long id);
 }
