@@ -23,6 +23,10 @@ public class OrderController {
     }
     @GetMapping("/consumer/payment/create")
     public CommonResult<Payment> create(Payment payment) {
-    return restTemplate.postForObject(PAYMENT_URL + "/payment/create", payment, CommonResult.class);
+        return restTemplate.postForObject(PAYMENT_URL + "/payment/create", payment, CommonResult.class);
+    }
+    @GetMapping("/consumer/payment/weiXinPay/{total_fee}")
+    public CommonResult createNative(Payment payment, @PathVariable("total_fee")String total_fee) {
+        return restTemplate.postForObject(PAYMENT_URL + "/payment/weiXinPay", payment, CommonResult.class);
  }
 }

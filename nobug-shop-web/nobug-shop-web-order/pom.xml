@@ -8,6 +8,7 @@
         <version>1.0.0-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <modelVersion/>
     <groupId>com.nobug</groupId>
     <artifactId>nobug-shop-web-order</artifactId>
     <version>1.0.0-SNAPSHOT</version>

@@ -4,6 +4,7 @@ package com.nobug.controller;
 import com.nobug.entity.CommonResult;
 import com.nobug.entity.Payment;
 import com.nobug.service.PaymentService;
+import com.nobug.service.WeiXinPayService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,10 @@ public class PaymentController {
     @Resource
     private PaymentService paymentService;
 
+    @Resource
+    private WeiXinPayService weiXinPayService;
+
+
     /**
      * 通过主键查询单条数据
      *
@@ -48,9 +53,21 @@ public class PaymentController {
         Payment payment = paymentService.queryById(id);
         log.info("*******插入结果："+payment);
         if (payment !=null){
-            return new CommonResult(200,"查询支付流水号成功",payment);
+            return new CommonResult(201,"查询支付流水号成功",payment);
         }else{
             return new CommonResult(444,"查询支付流水号失败",null);
         }
     }
+    @GetMapping("/payment/weiXinPay/{total_fee}")
+    public CommonResult createNative(Payment payment, @PathVariable("total_fee")String total_fee) throws Exception {
+
+            String aNative = weiXinPayService.createNative(payment, total_fee);
+        if (aNative  !=null){
+            return new CommonResult(203,"生成支付链接成功",payment);
+        }else{
+            return new CommonResult(450,"生成支付链接失败",null);
+        }
+
+    }
+
 }

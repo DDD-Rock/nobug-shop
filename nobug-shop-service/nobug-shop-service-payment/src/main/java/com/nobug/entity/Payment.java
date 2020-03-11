@@ -1,8 +1,8 @@
 package com.nobug.entity;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import java.io.Serializable;
 
@@ -13,8 +13,7 @@ import java.io.Serializable;
  * @since 2020-03-10 15:26:05
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Payment implements Serializable {
     
     private Long id;
