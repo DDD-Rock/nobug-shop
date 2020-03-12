@@ -16,15 +16,39 @@ import java.util.concurrent.TimeUnit;
 public class RegisterController implements IRegisterConstant {
 
     @Autowired
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     @RequestMapping("set/uuid/{username}/{uuid}")
-    public ResultBean setUUID(@PathVariable String username, @PathVariable String uuid){
+    public ResultBean setUUID(@PathVariable String username, @PathVariable String uuid) {
 
-        String key=new StringBuilder().append(IRegisterConstant.REGISTER_UUID).append("=").append(username).toString();
+        String key = new StringBuilder().append(IRegisterConstant.REGISTER_UUID).append("=").append(uuid).toString();
 
-        redisTemplate.opsForValue().set(key,uuid,15, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(key, username, 15, TimeUnit.MINUTES);
 
         return ResultBean.success("缓存加入完成");
     }
+
+    @RequestMapping("delete/{uuid}")
+    public ResultBean deleteByKey(@PathVariable String uuid) {
+
+        String key = new StringBuilder().append(IRegisterConstant.REGISTER_UUID).append("=").append(uuid).toString();
+
+        String email = redisTemplate.opsForValue().get(key);
+        //如果查无此key
+        if (email == null || email.isEmpty()) {
+            return ResultBean.error("redis中没有这个key");
+        } else {
+            Boolean delete = redisTemplate.delete(key);
+            if (delete){
+                return ResultBean.success(email);
+            }else{
+                return ResultBean.error("删除失败");
+            }
+
+
+        }
+
+
+    }
+
 }
