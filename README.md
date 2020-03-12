@@ -39,9 +39,10 @@ web:
     search web 7778 
    
 mapper:
-    user info mapper:8100
+    user info mapper 8100
 
-
+cache:
+    redis register 6301
 
 
 祝各位好运，肝就完了！
