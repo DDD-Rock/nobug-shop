@@ -3,7 +3,7 @@ spring:
     name: nobug-shop-cache-redis-register
   redis:
     host: 47.98.124.70
-    port: 6380
+    port: 6379
     password: 123456
 
 server:

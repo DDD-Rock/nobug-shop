@@ -34,11 +34,11 @@ public class RegisterServiceImpl implements RegisterService {
             System.out.println(resultBean.getMessage());
             //2.将用户激活邮件的邮箱和uuid存到redis，等待验证，15分钟有效期
             String uuid = UUID.randomUUID().toString();
-            String set_redis_uri = new StringBuilder().append("http://NOBUG-SHOP-CACHE-REDIS-REGISTER/redis/set/uuid/").append(username).append("/").append(uuid).toString();
+            String set_redis_uri = new StringBuilder().append("http://nobug-shop-cache-redis-register/redis/set/uuid/").append(username).append("/").append(uuid).append("/").toString();
             ResultBean resultBean1 = restTemplate.getForObject(set_redis_uri, ResultBean.class);
             System.out.println(resultBean1.getMessage());
             //3.发送激活邮件
-            String send_email_uri = new StringBuilder().append("http://nobug-shop-service-send-mail/email/send/").append(username).append("/").append(uuid).toString();
+            String send_email_uri = new StringBuilder().append("http://nobug-shop-service-send-mail/email/send/").append(username).append("/").append(uuid).append("/").toString();
             ResultBean resultBean2 = restTemplate.getForObject(send_email_uri, ResultBean.class);
             System.out.println(resultBean2.getMessage());
 

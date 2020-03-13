@@ -16,9 +16,9 @@ public class RibbonConfig {
         return new RestTemplate();
     }
 
-    @Bean
-    public IRule myRule(){
-        return new RoundRobinRule();
-    }
+//    @Bean
+//    public IRule myRule(){
+//        return new RoundRobinRule();
+//    }
 
 }
