@@ -8,14 +8,11 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <groupId>com.nobug</groupId>
-    <artifactId>nobug-shop-web-register</artifactId>
+    <artifactId>nobug-shop-cache-redis-register</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>nobug-shop-web-register</name>
-    <description>Register for Spring Boot</description>
+    <name>nobug-shop-cache-redis-register</name>
+    <description>Redis register for Spring Boot</description>
 
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -25,17 +22,16 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
-        </dependency>
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

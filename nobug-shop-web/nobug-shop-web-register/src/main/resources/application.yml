@@ -11,5 +11,7 @@ spring:
     name: nobug-shop-web-register
 
 ribbon:
-  ReadTimeout: 4000
-  ConnectTimeout: 4000
+  ReadTimeout: 10000
+  ConnectTimeout: 5000
+
+

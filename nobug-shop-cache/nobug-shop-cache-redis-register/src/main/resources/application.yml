@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: nobug-shop-cache-redis-register
+  redis:
+    host: 47.98.124.70
+    port: 6379
+    password: 123456
+
+server:
+  port: 6301
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
