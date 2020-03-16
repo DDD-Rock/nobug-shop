@@ -82,7 +82,7 @@ public class SearchServiceImpl implements ISearchService {
 
         //分页
         solrQuery.setStart(0);
-        solrQuery.setRows(2);
+        solrQuery.setRows(10);
         //开启高亮现实
         solrQuery.setHighlight(true);
         solrQuery.addHighlightField("t_product_name");

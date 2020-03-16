@@ -31,6 +31,7 @@ service:
     send mail service 8762
     payment 8765
     service search 7777 
+    send SMS 8763
     
     
 web:

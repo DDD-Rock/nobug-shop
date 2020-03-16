@@ -46,4 +46,11 @@ public class RegisterController {
         return resultBean;
     }
 
+    @RequestMapping("sms/{phoneNum}")
+    @ResponseBody
+    public ResultBean sendSMS(@PathVariable String phoneNum){
+        ResultBean resultBean = registerService.sendSMS(phoneNum);
+        return resultBean;
+    }
+
 }
