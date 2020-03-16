@@ -2,7 +2,6 @@ package com.nobug.service.impl;
 
 import com.nobug.ResultBean;
 import com.nobug.UserDTO;
-import com.nobug.constant.IRegisterConstant;
 import com.nobug.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,6 +43,21 @@ public class RegisterServiceImpl implements RegisterService {
 
         } else if (num == 2) {
             //手机号注册
+            //1.核对redis中的验证码和用户输入的是否一致。
+            String set_redis_uri = new StringBuilder().append("http://nobug-shop-cache-redis-register/redis/verify/sms/").append(username).append("/").append(code).append("/").toString();
+            ResultBean resultBean = restTemplate.getForObject(set_redis_uri, ResultBean.class);
+            if (resultBean.getErrno() == 0) {
+                //2.将用户注册信息存入数据库。
+                UserDTO userDTO = new UserDTO();
+                userDTO.setPhone(username);
+                userDTO.setPassword(password);
+                userDTO.setFlag(1);//直接已激活状态
+                userDTO.setCreateTime(new Date());
+                ResultBean mysqlResultBean = restTemplate.postForObject("http://NOBUG-SHOP-MAPPER-USER-INFO/mapper/email", userDTO, ResultBean.class);
+                System.out.println(mysqlResultBean.getMessage());
+            } else {
+                return resultBean;
+            }
 
 
         }
@@ -61,16 +75,30 @@ public class RegisterServiceImpl implements RegisterService {
     public ResultBean active(String uuid) {
 
         //redis处理（删除对应的key-value）
-        String key ="http://nobug-shop-cache-redis-register/redis/delete/" + uuid;
+        String key = "http://nobug-shop-cache-redis-register/redis/delete/uuid/" + uuid;
         ResultBean resultBean = restTemplate.getForObject(key, ResultBean.class);
-        if (resultBean.getErrno()==0){
+        if (resultBean.getErrno() == 0) {
             //删除成功，处理数据库操作
             ResultBean mysqlResultBean = restTemplate.getForObject("http://nobug-shop-mapper-user-info/mapper/active/" + resultBean.getMessage(), ResultBean.class);
             return mysqlResultBean;
-        }else{
+        } else {
             //删除失败
             return ResultBean.error("您的激活链接已过期，请重新申请链接！");
         }
 
+    }
+
+    /**
+     * @param phoneNum
+     * @return
+     */
+    @Override
+    public ResultBean sendSMS(String phoneNum) {
+        //1.生成一个随机的验证码
+        String sms_code = String.valueOf((int) ((Math.random() * 9 + 1) * 1000));
+        //2.发送验证码，存入redis
+        String send_sms_uri = new StringBuilder().append("http://nobug-shop-service-send-sms/sms/send/").append(phoneNum).append("/").append(sms_code).append("/").toString();
+        ResultBean resultBean = restTemplate.getForObject(send_sms_uri, ResultBean.class);
+        return resultBean;
     }
 }
