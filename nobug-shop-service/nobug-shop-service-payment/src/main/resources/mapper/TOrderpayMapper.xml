@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nobug.dao.TOrderpayDao">
+
+    <resultMap type="com.nobug.entity.TOrderpay" id="TOrderpayMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="orderid" column="orderid" jdbcType="VARCHAR"/>
+        <result property="paystatus" column="paystatus" jdbcType="VARCHAR"/>
+        <result property="payamount" column="payamount" jdbcType="NUMERIC"/>
+        <result property="createtime" column="createtime" jdbcType="TIMESTAMP"/>
+        <result property="paymethod" column="paymethod" jdbcType="VARCHAR"/>
+        <result property="confirmdate" column="confirmdate" jdbcType="TIMESTAMP"/>
+        <result property="confirmuser" column="confirmuser" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="tradeno" column="tradeNo" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TOrderpayMap">
+        select
+          id, orderid, paystatus, payamount, createtime, paymethod, confirmdate, confirmuser, remark, tradeNo
+        from myshop.t_orderpay
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TOrderpayMap">
+        select
+          id, orderid, paystatus, payamount, createtime, paymethod, confirmdate, confirmuser, remark, tradeNo
+        from myshop.t_orderpay
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TOrderpayMap">
+        select
+          id, orderid, paystatus, payamount, createtime, paymethod, confirmdate, confirmuser, remark, tradeNo
+        from myshop.t_orderpay
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderid != null and orderid != ''">
+                and orderid = #{orderid}
+            </if>
+            <if test="paystatus != null and paystatus != ''">
+                and paystatus = #{paystatus}
+            </if>
+            <if test="payamount != null">
+                and payamount = #{payamount}
+            </if>
+            <if test="createtime != null">
+                and createtime = #{createtime}
+            </if>
+            <if test="paymethod != null and paymethod != ''">
+                and paymethod = #{paymethod}
+            </if>
+            <if test="confirmdate != null">
+                and confirmdate = #{confirmdate}
+            </if>
+            <if test="confirmuser != null and confirmuser != ''">
+                and confirmuser = #{confirmuser}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="tradeno != null and tradeno != ''">
+                and tradeNo = #{tradeno}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into myshop.t_orderpay(orderid, paystatus, payamount, createtime, paymethod, confirmdate, confirmuser, remark, tradeNo)
+        values (#{orderid}, #{paystatus}, #{payamount}, #{createtime}, #{paymethod}, #{confirmdate}, #{confirmuser}, #{remark}, #{tradeno})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update myshop.t_orderpay
+        <set>
+            <if test="orderid != null and orderid != ''">
+                orderid = #{orderid},
+            </if>
+            <if test="paystatus != null and paystatus != ''">
+                paystatus = #{paystatus},
+            </if>
+            <if test="payamount != null">
+                payamount = #{payamount},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime},
+            </if>
+            <if test="paymethod != null and paymethod != ''">
+                paymethod = #{paymethod},
+            </if>
+            <if test="confirmdate != null">
+                confirmdate = #{confirmdate},
+            </if>
+            <if test="confirmuser != null and confirmuser != ''">
+                confirmuser = #{confirmuser},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="tradeno != null and tradeno != ''">
+                tradeNo = #{tradeno},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from myshop.t_orderpay where id = #{id}
+    </delete>
+
+</mapper>
