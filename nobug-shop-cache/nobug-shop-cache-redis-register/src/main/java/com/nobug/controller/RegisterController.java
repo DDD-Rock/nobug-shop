@@ -72,7 +72,7 @@ public class RegisterController implements IRegisterConstant {
 
         String key = new StringBuilder().append(IRegisterConstant.REGISTER_SMS).append("=").append(phoneNum).toString();
 
-        redisTemplate.opsForValue().set(key, code, 15, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(key, code, 5, TimeUnit.MINUTES);
 
         return ResultBean.success("缓存加入sms完成");
     }

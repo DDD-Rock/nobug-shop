@@ -46,11 +46,11 @@
                                 <input type="email" name="" id="email" placeholder="请输入邮箱账号">
                             </div>
                             <div class="user-pass">
-                                <label for="password"><i class="am-icon-lock"></i></label>
+                                <label for="password_email"><i class="am-icon-lock"></i></label>
                                 <input type="password" name="" id="password_email" placeholder="设置密码">
                             </div>
                             <div class="user-pass">
-                                <label for="passwordRepeat"><i class="am-icon-lock"></i></label>
+                                <label for="passwordRepeat_email"><i class="am-icon-lock"></i></label>
                                 <input type="password" name="" id="passwordRepeat_email" placeholder="确认密码">
                             </div>
 
@@ -82,12 +82,12 @@
                                     <span id="dyMobileButton">获取</span></a>
                             </div>
                             <div class="user-pass">
-                                <label for="password"><i class="am-icon-lock"></i></label>
-                                <input type="password" name="" id="password" placeholder="设置密码">
+                                <label for="password_phone"><i class="am-icon-lock"></i></label>
+                                <input type="password" name="" id="password_phone" placeholder="设置密码">
                             </div>
                             <div class="user-pass">
-                                <label for="passwordRepeat"><i class="am-icon-lock"></i></label>
-                                <input type="password" name="" id="passwordRepeat" placeholder="确认密码">
+                                <label for="passwordRepeat_phone"><i class="am-icon-lock"></i></label>
+                                <input type="password" name="" id="passwordRepeat_phone" placeholder="确认密码">
                             </div>
                         </form>
                         <div class="login-links">
@@ -141,11 +141,24 @@
 
     <script type="text/javascript">
 
-        function submit_user_info(num,username,password,code){
-            $.ajax({
-                url:'http://localhost:',
-
-            })
+        function sendMobileCode() {
+            var phone = $("#phone").val();
+            var reg = /^1[3456789]\d{9}$/;
+            if (reg.test(phone)) {
+                $.ajax({
+                    url: 'http://localhost:8081/user/sms/' + phone,
+                    type:'get',
+                    dataType:'json',
+                    success:function (data) {
+                        alert(data.message);
+                    },
+                    error:function () {
+                        alert("注册失败，服务器出现了一些小问题...")
+                    }
+                })
+            } else {
+                alert("请输入正确的手机号！")
+            }
         }
 
         /**
@@ -175,10 +188,27 @@
                         alert("两次输入的密码不一致，请重新输入")
                         $("#password_email").val('');
                         $("#passwordRepeat_email").val('');
-                    } else if (email=='') {
+                    } else if (email == '') {
                         alert('用户名不能为空');
                     } else {
-                        console.log("密码一致，可以下一部操作")
+                        console.log("密码一致，可以下一步操作")
+                        $.ajax({
+                            url: 'http://localhost:8081/user/register',
+                            method: 'post',
+                            dataType: 'json',
+                            data: {
+                                num: num,
+                                username: email,
+                                password: password
+                            },
+                            success: function (data) {
+                                console.log(data)
+                            },
+                            error: function (data) {
+                                alert("注册失败，服务器出现了一些小问题...")
+                            }
+
+                        })
                     }
                 } else {
                     alert("请先同意商城《服务协议》");
@@ -195,6 +225,7 @@
                     var password = $("#password_phone").val();
                     var passwordRepeat = $("#passwordRepeat_phone").val();
                     var phone = $("#phone").val();
+                    var code = $("#code").val();
 
 
                     if (password == '' || passwordRepeat == '') {
@@ -208,8 +239,25 @@
                     } else if (phone == '') {
                         alert('用户名不能为空');
                     } else {
-                        console.log("密码一致，可以下一部操作")
+                        console.log("密码一致，可以下一步操作")
+                        $.ajax({
+                            url: 'http://localhost:8081/user/register',
+                            method: 'post',
+                            dataType: 'json',
+                            data: {
+                                num: num,
+                                username: phone,
+                                password: password,
+                                code: code
+                            },
+                            success: function (data) {
+                                console.log(data)
+                            },
+                            error: function (data) {
+                                alert("注册失败，服务器出现了一些小问题...")
+                            }
 
+                        })
                     }
 
                 } else {

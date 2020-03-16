@@ -21,7 +21,7 @@ public class RegisterController {
     @Autowired(required = false)
     private UserMapper userMapper;
 
-    @RequestMapping("email")
+    @RequestMapping("user")
     public ResultBean registerEmail(@RequestBody UserDTO userDTO) {
 
         TUser tUser = new TUser();

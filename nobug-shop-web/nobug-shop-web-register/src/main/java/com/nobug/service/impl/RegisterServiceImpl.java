@@ -4,6 +4,7 @@ import com.nobug.ResultBean;
 import com.nobug.UserDTO;
 import com.nobug.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,7 +19,7 @@ public class RegisterServiceImpl implements RegisterService {
 
 
     @Override
-    public ResultBean register(int num, String username, String password, String code) {
+    public ResultBean register(int num, String username, String password,@DefaultValue("") String code) {
 
 
         if (num == 1) {
@@ -53,7 +54,7 @@ public class RegisterServiceImpl implements RegisterService {
                 userDTO.setPassword(password);
                 userDTO.setFlag(1);//直接已激活状态
                 userDTO.setCreateTime(new Date());
-                ResultBean mysqlResultBean = restTemplate.postForObject("http://NOBUG-SHOP-MAPPER-USER-INFO/mapper/email", userDTO, ResultBean.class);
+                ResultBean mysqlResultBean = restTemplate.postForObject("http://NOBUG-SHOP-MAPPER-USER-INFO/mapper/user", userDTO, ResultBean.class);
                 System.out.println(mysqlResultBean.getMessage());
             } else {
                 return resultBean;
@@ -96,9 +97,17 @@ public class RegisterServiceImpl implements RegisterService {
     public ResultBean sendSMS(String phoneNum) {
         //1.生成一个随机的验证码
         String sms_code = String.valueOf((int) ((Math.random() * 9 + 1) * 1000));
-        //2.发送验证码，存入redis
-        String send_sms_uri = new StringBuilder().append("http://nobug-shop-service-send-sms/sms/send/").append(phoneNum).append("/").append(sms_code).append("/").toString();
+
+        //2.发送验证码到手机
+        String send_sms_uri = new StringBuilder().append("http://nobug-shop-service-send-sms/sms/send/").append(phoneNum).append("/").append(sms_code).toString();
         ResultBean resultBean = restTemplate.getForObject(send_sms_uri, ResultBean.class);
-        return resultBean;
+        System.out.println(resultBean.getMessage());
+
+        //3.存入redis
+        String set_redis_uri = new StringBuilder().append("http://nobug-shop-cache-redis-register/redis/set/sms/").append(phoneNum).append("/").append(sms_code).toString();
+        ResultBean resultBean1 = restTemplate.getForObject(set_redis_uri, ResultBean.class);
+        System.out.println(resultBean1.getMessage());
+
+        return ResultBean.success("短信发送成功，5分钟内有效");
     }
 }
