@@ -38,6 +38,7 @@ web:
     rigester web 8081
     order web 80
     search web 7778 
+    login web 8082
    
 mapper:
     user info mapper 8100
