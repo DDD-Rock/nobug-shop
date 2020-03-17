@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(value = "nobug-shop-mapper-user-info",fallback = LoginServiceHystrix.class)
 public interface LoginService {
 
-    @RequestMapping("user")
+    @RequestMapping("/login/user")
     ResultBean userLogin(@RequestParam String flag, @RequestParam String username);
 
 }

@@ -14,3 +14,6 @@ eureka:
 feign:
   hystrix:
     enabled: true
+  okhttp:
+    enabled: true
+#    todo okhttp\u6682\u65F6\u6CA1\u6709\u81EA\u5B9A\u4E49\u914D\u7F6E\u7C7B
