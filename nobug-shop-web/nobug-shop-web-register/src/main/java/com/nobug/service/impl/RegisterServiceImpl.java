@@ -108,6 +108,6 @@ public class RegisterServiceImpl implements RegisterService {
         ResultBean resultBean1 = restTemplate.getForObject(set_redis_uri, ResultBean.class);
         System.out.println(resultBean1.getMessage());
 
-        return ResultBean.success("短信发送成功，5分钟内有效");
+        return ResultBean.success("发送验证码成功，请勿重复发送验证码，5分钟内有效！");
     }
 }

@@ -6,6 +6,13 @@ spring:
     port: 6379
     password: 123456
     database: 1
+#    redis连接池
+    lettuce:
+      pool:
+        max-idle: 30
+        min-idle: 10
+        max-active: 30
+        max-wait: 10000
 
 server:
   port: 6301
