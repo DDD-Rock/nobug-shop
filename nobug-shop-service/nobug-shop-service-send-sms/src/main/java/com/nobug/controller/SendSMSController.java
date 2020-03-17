@@ -14,7 +14,6 @@ public class SendSMSController {
 
     @RequestMapping("send/{phoneNum}/{code}")
     public ResultBean sendSMS(@PathVariable String phoneNum, @PathVariable String code) {
-        //TODO 发送短信的业务代码
 
         String smsResult = SmsUtil.sendTplSms("b4f40f061acd466c9acbb8f0092913ff", phoneNum, "@1@=" + code, "");
 
