@@ -1,11 +1,11 @@
 package com.nobug.service.fallback;
 
 import com.nobug.ResultBean;
-import com.nobug.service.LoginService;
+import com.nobug.service.LoginMapperService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class LoginServiceHystrix implements LoginService {
+public class LoginMapperServiceHystrix implements LoginMapperService {
 
     @Override
     public ResultBean userLogin(String flag, String username) {

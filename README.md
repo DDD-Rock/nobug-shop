@@ -45,7 +45,7 @@ mapper:
 
 cache:
     redis register 6301
-
+    redis login 6302
 
 祝各位好运，肝就完了！
 
