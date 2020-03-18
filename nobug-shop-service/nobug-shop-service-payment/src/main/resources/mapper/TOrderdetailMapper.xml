@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nobug.dao.TOrderdetailDao">
+
+    <resultMap type="com.nobug.entity.TOrderdetail" id="TOrderdetailMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="orderid" column="orderID" jdbcType="INTEGER"/>
+        <result property="productid" column="productID" jdbcType="INTEGER"/>
+        <result property="price" column="price" jdbcType="NUMERIC"/>
+        <result property="number" column="number" jdbcType="INTEGER"/>
+        <result property="productname" column="productName" jdbcType="VARCHAR"/>
+        <result property="fee" column="fee" jdbcType="NUMERIC"/>
+        <result property="total0" column="total0" jdbcType="NUMERIC"/>
+        <result property="iscomment" column="isComment" jdbcType="VARCHAR"/>
+        <result property="lowstocks" column="lowStocks" jdbcType="VARCHAR"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="specinfo" column="specInfo" jdbcType="VARCHAR"/>
+        <result property="giftid" column="giftID" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TOrderdetailMap">
+        select
+          id, orderID, productID, price, number, productName, fee, total0, isComment, lowStocks, score, specInfo, giftID
+        from myshop.t_orderdetail
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TOrderdetailMap">
+        select
+          id, orderID, productID, price, number, productName, fee, total0, isComment, lowStocks, score, specInfo, giftID
+        from myshop.t_orderdetail
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TOrderdetailMap">
+        select
+          id, orderID, productID, price, number, productName, fee, total0, isComment, lowStocks, score, specInfo, giftID
+        from myshop.t_orderdetail
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderid != null">
+                and orderID = #{orderid}
+            </if>
+            <if test="productid != null">
+                and productID = #{productid}
+            </if>
+            <if test="price != null">
+                and price = #{price}
+            </if>
+            <if test="number != null">
+                and number = #{number}
+            </if>
+            <if test="productname != null and productname != ''">
+                and productName = #{productname}
+            </if>
+            <if test="fee != null">
+                and fee = #{fee}
+            </if>
+            <if test="total0 != null">
+                and total0 = #{total0}
+            </if>
+            <if test="iscomment != null and iscomment != ''">
+                and isComment = #{iscomment}
+            </if>
+            <if test="lowstocks != null and lowstocks != ''">
+                and lowStocks = #{lowstocks}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+            <if test="specinfo != null and specinfo != ''">
+                and specInfo = #{specinfo}
+            </if>
+            <if test="giftid != null and giftid != ''">
+                and giftID = #{giftid}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into myshop.t_orderdetail(orderID, productID, price, number, productName, fee, total0, isComment, lowStocks, score, specInfo, giftID)
+        values (#{orderid}, #{productid}, #{price}, #{number}, #{productname}, #{fee}, #{total0}, #{iscomment}, #{lowstocks}, #{score}, #{specinfo}, #{giftid})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update myshop.t_orderdetail
+        <set>
+            <if test="orderid != null">
+                orderID = #{orderid},
+            </if>
+            <if test="productid != null">
+                productID = #{productid},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="number != null">
+                number = #{number},
+            </if>
+            <if test="productname != null and productname != ''">
+                productName = #{productname},
+            </if>
+            <if test="fee != null">
+                fee = #{fee},
+            </if>
+            <if test="total0 != null">
+                total0 = #{total0},
+            </if>
+            <if test="iscomment != null and iscomment != ''">
+                isComment = #{iscomment},
+            </if>
+            <if test="lowstocks != null and lowstocks != ''">
+                lowStocks = #{lowstocks},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="specinfo != null and specinfo != ''">
+                specInfo = #{specinfo},
+            </if>
+            <if test="giftid != null and giftid != ''">
+                giftID = #{giftid},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from myshop.t_orderdetail where id = #{id}
+    </delete>
+
+</mapper>
