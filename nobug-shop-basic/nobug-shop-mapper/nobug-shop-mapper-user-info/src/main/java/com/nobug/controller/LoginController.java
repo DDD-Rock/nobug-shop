@@ -26,18 +26,25 @@ public class LoginController {
         Example.Criteria criteria = example.createCriteria();
         if ("phone".equals(flag)) {
             criteria.andEqualTo("phone", username);
-        }else if("email".equals(flag)){
+        } else if ("email".equals(flag)) {
             criteria.andEqualTo("email", username);
         }
+
+//        TUser tUser = new TUser();
+//        if ("phone".equals(flag)) {
+//            tUser.setPhone(username);
+//        }else if("email".equals(flag)){
+//            tUser.setEmail(username);
+//        }
         TUser tUser = userMapper.selectOneByExample(example);
-        if (tUser==null){
+        if (tUser == null) {
             return ResultBean.error("登录失败,您的用户名不存在");
         }
         //java对象复制工具类
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(tUser, userDTO);
 
-        return ResultBean.success(tUser);
+        return ResultBean.success(userDTO);
     }
 
 }

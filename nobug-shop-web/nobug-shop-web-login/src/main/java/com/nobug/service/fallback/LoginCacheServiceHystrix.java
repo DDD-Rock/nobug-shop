@@ -4,8 +4,10 @@ import com.nobug.ResultBean;
 import com.nobug.UserDTO;
 import com.nobug.service.LoginCacheService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component
 public class LoginCacheServiceHystrix implements LoginCacheService {
     @Override
     public ResultBean getUserInfoByKey(String redisKey) {
