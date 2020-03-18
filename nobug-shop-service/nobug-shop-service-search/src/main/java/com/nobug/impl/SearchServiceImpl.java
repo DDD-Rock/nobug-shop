@@ -70,7 +70,6 @@ public class SearchServiceImpl implements ISearchService {
     @Override
     public ResultBean searchByKeyword(String keyWord) {
 
-        String url = "http://localhost/";
 
         ResultBean bean = new ResultBean();
 
@@ -125,8 +124,6 @@ public class SearchServiceImpl implements ISearchService {
             String t_product_pimage = result.getFieldValue("t_product_pimage").toString();
             if(t_product_pimage == null){
                 t_product_pimage = "";
-            }else{
-                t_product_pimage += url;
             }
             product.settProductPimage(t_product_pimage);
 

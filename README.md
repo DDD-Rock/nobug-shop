@@ -32,6 +32,7 @@ service:
     payment 8765
     service search 7777 
     send SMS 8763
+    down order server 7779
     
     
 web:
@@ -39,6 +40,7 @@ web:
     order web 80
     search web 7778 
     login web 8082
+    down order web 7780
    
 mapper:
     user info mapper 8100
