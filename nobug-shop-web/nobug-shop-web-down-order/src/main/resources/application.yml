@@ -1,6 +1,17 @@
 spring:
   application:
     name: nobug-shop-web-down-order
+  redis:
+    host: 47.98.124.70
+    port: 6379
+    password: 123456
+    database: 1
+    lettuce:
+      pool:
+        max-idle: 30
+        min-idle: 10
+        max-active: 30
+        max-wait: 10000
 
 server:
   port: 7780

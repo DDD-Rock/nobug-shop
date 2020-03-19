@@ -421,7 +421,7 @@
 
 											<p class="buy-footer-address">
 												<span class="buy-line-title buy-line-title-type">寄送至：</span>
-												<span class="buy--address-detail">
+												<span class="buy--address-detail1 ">
 								   <span class="province">湖北</span>省
 												<span class="city">武汉</span>市
 												<span class="dist">洪山</span>区
@@ -431,7 +431,7 @@
 											</p>
 											<p class="buy-footer-address">
 												<span class="buy-line-title">收货人：</span>
-												<span class="buy-address-detail">
+												<span class="buy-address-detail1">
                                          <span class="buy-user">艾迪 </span>
 												<span class="buy-phone">15871145629</span>
 												</span>
@@ -547,26 +547,33 @@
 
 			// 获取页面数据
 
-			var province = $(".province").text();
-			var city = $(".city").text();
-			var dist = $(".dist").text();
-			var street = $(".street").text();
 
+			var addrInfo ={
+
+				//收货地址
+				address: $(".buy--address-detail1").children("span").text(),
+
+				//收件人
+				addressee : $(".buy-address-detail1").children("span").text(),
+
+				//支付宝
+				zhifb : $(".taobao").text(),
+
+				//顺丰
+				shunfeng : $(".op_express_delivery_hot_bottom").text(),
+
+
+
+
+			}
 
 			function submitprovince(){
 
-
-
 				$.ajax({
-					url:'/down/order?province='+province,
-					type:'json'
-					// success:function(d){
-					// 	// console.log(d);
-					// 	alert(d.message);
-					// 	if(d.errno==0){
-					// 		window.location.href="/product/index";
-					// 	}
-					// }
+					url:'/down/order',
+					type:"post",
+					dataType:"json",
+					data:{addrInfo:JSON.stringify(addrInfo)}
 				})
 			}
 
