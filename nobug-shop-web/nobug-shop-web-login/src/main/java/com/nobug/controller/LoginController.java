@@ -26,7 +26,7 @@ public class LoginController implements IRegisterConstant {
     private LoginCacheService loginCacheService;
 
 
-    @RequestMapping(path = "user", method = RequestMethod.POST)
+    @RequestMapping(path = "user")
     public ResultBean userLogin(@RequestParam String username, @RequestParam String password,
                                 @CookieValue(value = REDIS_USER_KEY, required = false) String uuid,
                                 HttpServletResponse response) {
@@ -83,6 +83,7 @@ public class LoginController implements IRegisterConstant {
             Cookie cookie = new Cookie(REDIS_USER_KEY, new_uuid);
             cookie.setMaxAge(86400);
             cookie.setPath("/");
+            cookie.setHttpOnly(true);
             response.addCookie(cookie);
         }else{
             //重置redis有效期
@@ -91,6 +92,7 @@ public class LoginController implements IRegisterConstant {
             Cookie cookie = new Cookie(REDIS_USER_KEY, uuid);
             cookie.setMaxAge(86400);
             cookie.setPath("/");
+            cookie.setHttpOnly(true);
             response.addCookie(cookie);
         }
 
