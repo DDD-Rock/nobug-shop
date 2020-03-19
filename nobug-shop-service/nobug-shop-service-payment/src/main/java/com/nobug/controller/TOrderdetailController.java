@@ -2,6 +2,7 @@ package com.nobug.controller;
 
 import com.nobug.entity.TOrderdetail;
 import com.nobug.service.TOrderdetailService;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -20,14 +21,17 @@ public class TOrderdetailController {
     private TOrderdetailService tOrderdetailService;
 
     /**
-     * 通过主键查询单条数据
+     * 通过订单id查询订单详情
      *
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("selectOne")
-    public TOrderdetail selectOne(Integer id) {
-        return this.tOrderdetailService.queryById(id);
+    @GetMapping("queryDetail")
+    public String  selectOne(Integer id, Model model) {
+        TOrderdetail tOrderdetail = tOrderdetailService.queryById(id);
+        model.addAttribute("tOrderdetail",tOrderdetail);
+
+        return "orderinfo";
     }
 
 }

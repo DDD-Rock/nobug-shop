@@ -9,6 +9,7 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.google.gson.Gson;
 import com.nobug.entity.TOrder;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.ServletException;
@@ -24,7 +25,7 @@ import java.util.Set;
 /**
  * (Payment)表控制层
  */
-@RestController
+@Controller
 @Slf4j
 public class PaymentController {
     /**
@@ -63,13 +64,18 @@ public class PaymentController {
                 "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt2K44J7w9S2skUCrj7Q1NOuXYXFKZIphkhfx0P+7ZaTediwx3hJ3n6Q0dUg6zi9DtfA2QeGdOjSbVRaY6bYbfIjwrEuQL//vPeOfY6m8meOKXQtLYYdp0ndS7OBNAiNdUMzC2ZtWuBMCZEFaekEdbYGjT+4uEmYc882gxAT8JMpWK4jSxdnU4Hgi7QAQ3EGlOKKrqGVWaMJemuPhm6/Vj7CnEv0HhUO22jSY21dLgrIs2+nRJwbjucYm84JLmzT7HOeybzAEeeTfxshnd5LCro1B9Bw/kKe4UgstJE0Qk/vCsHjMCWt1ZJexvVGku15faYoiviw00L04DcKstV0opQIDAQAB",
                 "RSA2"); //获得初始化的AlipayClient
         AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();//创建API对应的request
-        alipayRequest.setReturnUrl("http://ubh6cs.natappfree.cc/success");
-        alipayRequest.setNotifyUrl("http://ubh6cs.natappfree.cc/success");//在公共参数中设置回跳和通知地址
+        alipayRequest.setReturnUrl(" http://j6xt27.natappfree.cc/success");
+        alipayRequest.setNotifyUrl(" http://j6xt27.natappfree.cc/notifyUrl");//在公共参数中设置回跳和通知地址
         alipayRequest.setBizContent("{" +
-                "    \"out_trade_no\":\"" + order.getId() + "\"," +
-                "    \"total_amount\":"+order.getAmount()+","+
-                "    \"subject\":\""+order.getRemark()+"\"," +
-                "    \"body\":\""+order.getRemark()+"\"," +
+//                "    \"out_trade_no\":\"" + order.getId() + "\"," +
+                "    \"out_trade_no\":\"" + "20200313105750007"+ "\"," +
+                "    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," +
+//                "    \"total_amount\":"+order.getAmount()+","+
+                "    \"total_amount\":"+"6"+","+
+//                "    \"subject\":\""+order.getRemark()+"\"," +
+                "    \"subject\":\""+"教育培训"+"\"," +
+//                "    \"body\":\""+order.getRemark()+"\"," +
+                "    \"body\":\""+"qf"+"\"," +
                 "    \"passback_params\":\"merchantBizType%3d3C%26merchantBizNo%3d2016010101111\"," +
                 "    \"extend_params\":{" +
                 "    \"sys_service_provider_id\":\"2088511833207846\"" +
@@ -127,8 +133,9 @@ public class PaymentController {
             jsonMap.put("sign","MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAljb6rHchsCb");
             TOrder order = (TOrder) request.getAttribute("order");
             //验签成功
-            if (paramsMap.get("out_trade_no").equals("20200313105750009") &&
-                    paramsMap.get("total_amount").equals(order.getAmount())) {
+            if (paramsMap.get("out_trade_no").equals("20200313105750007") &&
+                    //paramsMap.get("total_amount").equals(order.getAmount())) {
+                    paramsMap.get("total_amount").equals("6")) {
                 System.out.println("金额正确，验签成功");//要去数据库中改变订单状态
                 response.getWriter().write(gson.toJson(jsonMap));
             }

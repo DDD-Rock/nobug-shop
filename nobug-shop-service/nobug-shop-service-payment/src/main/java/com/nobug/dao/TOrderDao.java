@@ -32,10 +32,9 @@ public interface TOrderDao {
     /**
      * 通过实体作为筛选条件查询
      *
-     * @param tOrder 实例对象
      * @return 对象列表
      */
-    List<TOrder> queryAll(TOrder tOrder);
+    List<TOrder> queryAll();
 
     /**
      * 新增数据
