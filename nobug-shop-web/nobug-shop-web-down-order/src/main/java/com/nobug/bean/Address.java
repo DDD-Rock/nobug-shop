@@ -1,18 +1,25 @@
 package com.nobug.bean;
 
-import java.io.Serializable;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class Address implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Address {
 
-    private List<Area> areaList;// 区域列表
 
-    public List<Area> getAreaList() {
-        return areaList;
-    }
+    private String address;
 
-    public void setAreaList(List<Area> areaList) {
-        this.areaList = areaList;
-    }
+    private String addressee;
+
+    private String zhifb;
+
+    private String shunfeng;
+
+
+
+
+
 }

@@ -1,14 +1,15 @@
 package com.nobug.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.netflix.discovery.converters.wrappers.CodecWrappers;
+import com.nobug.bean.Address;
+import com.nobug.bean.CartInfo;
 import com.nobug.bean.TProduct;
 import com.nobug.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -36,11 +37,11 @@ public class DownOrderController {
      * @throws Exception
      */
     @RequestMapping("//down/order")
-    @ResponseBody
-    public String downOrder(String addrInfo,HttpServletRequest request) throws Exception{
+    public String downOrder(String addrInfo, HttpServletRequest request, Model model) throws Exception{
 
-        //解析对象
         ObjectMapper objectMapper = new ObjectMapper();
+
+
 
 
         String uuid = null;
@@ -68,19 +69,25 @@ public class DownOrderController {
 
         //获取购物车redis中的key
         String redisKey = StringUtils.getRedisKey("REDIS_USER_CART_UID", uuid);
-
+        //获取购物车中的值
         Object userCartUid = redisTemplate.opsForValue().get("REDIS_USER_CART_UID");
 
-        //获取购物车中的值
+        //将购物车中的值封装到list集合中
+        List<TProduct> products = objectMapper.readValue((byte[]) userCartUid, List.class);
+
+        //获取地址信息
+        Address addr = objectMapper.readValue(addrInfo, Address.class);
+
+        //组装订单
+        CartInfo cartInfo = new CartInfo();
+        cartInfo.setProductList(products);
+        cartInfo.setAddress(addr);
+
+        //将数据存放到model中
+        model.addAttribute("CartInfo",cartInfo);
 
 
-        //获取购物车中的数据
-        List<TProduct> list = objectMapper.readValue((byte[]) userCartUid, List.class);
-
-
-
-
-        return "";
+        return "success";
     }
 
 
