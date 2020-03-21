@@ -1,7 +1,5 @@
 package com.nobug.utils;
 
-import com.nobug.constant.IRegisterConstant;
-
 /**
  * 字符串工具类
  */

@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: nobug-shop-cache-redis-product
+  redis:
+    host: 47.98.124.70
+    port: 6379
+    password: 123456
+    database: 1
+    #    redis\u8FDE\u63A5\u6C60
+    lettuce:
+      pool:
+        max-idle: 30
+        min-idle: 10
+        max-active: 30
+        max-wait: 10000
+
+server:
+  port: 6303
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+

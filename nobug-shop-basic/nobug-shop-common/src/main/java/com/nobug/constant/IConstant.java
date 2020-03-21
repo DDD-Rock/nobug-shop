@@ -1,6 +1,6 @@
 package com.nobug.constant;
 
-public interface IRegisterConstant {
+public interface IConstant {
 
     String REGISTER_UUID = "register_uuid"; //邮箱激活时使用的临时key
 
@@ -13,5 +13,6 @@ public interface IRegisterConstant {
     String REDIS_USER_CART_UID="redis_user_cart_uid";  //登录状态下的用户购物车key
 
 
-
+    String REDIS_INDEX_GUIDE = "redis_index_guide"; //主页的商品列表key
+    String REDIS_INDEX_GUIDE_LOCK = "redis_index_guide_lock"; //主页的商品列表查询锁
 }
