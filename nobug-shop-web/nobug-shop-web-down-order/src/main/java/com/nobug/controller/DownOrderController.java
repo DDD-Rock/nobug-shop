@@ -1,6 +1,7 @@
 package com.nobug.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nobug.ResultBean;
 import com.nobug.bean.Address;
 import com.nobug.bean.CartInfo;
 import com.nobug.bean.TProduct;
@@ -10,6 +11,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -22,12 +24,29 @@ public class DownOrderController {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
 
     //跳转到订单页面
 
     @RequestMapping("/order/orderConfirm")
     public String orderConfirm() {
         return "orderConfirm";
+    }
+
+    //搜索
+    @RequestMapping("/order/orderConfirm1")
+    public String search(String index_search,Model model){
+
+        String url = "http://nobug-shop-service-search/solr";
+
+        ResultBean bean = restTemplate.getForObject(url, ResultBean.class);
+
+        model.addAttribute("products",bean.getData());
+
+        return "search";
+
     }
 
 
