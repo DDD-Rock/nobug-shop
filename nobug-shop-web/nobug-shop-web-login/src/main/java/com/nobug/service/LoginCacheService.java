@@ -1,7 +1,7 @@
 package com.nobug.service;
 
 import com.nobug.ResultBean;
-import com.nobug.UserDTO;
+import com.nobug.dto.UserDTO;
 import com.nobug.service.fallback.LoginCacheServiceHystrix;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;

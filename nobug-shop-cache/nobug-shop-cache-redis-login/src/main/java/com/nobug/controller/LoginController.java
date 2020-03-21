@@ -1,7 +1,7 @@
 package com.nobug.controller;
 
 import com.nobug.ResultBean;
-import com.nobug.UserDTO;
+import com.nobug.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;

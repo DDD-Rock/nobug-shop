@@ -1,7 +1,7 @@
 package com.nobug.controller;
 
 import com.nobug.ResultBean;
-import com.nobug.constant.IRegisterConstant;
+import com.nobug.constant.IConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("redis")
 @Slf4j
-public class RegisterController implements IRegisterConstant {
+public class RegisterController implements IConstant {
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -29,7 +29,7 @@ public class RegisterController implements IRegisterConstant {
     @RequestMapping("set/uuid/{username}/{uuid}")
     public ResultBean setUUID(@PathVariable String username, @PathVariable String uuid) {
 
-        String key = new StringBuilder().append(IRegisterConstant.REGISTER_UUID).append("=").append(uuid).toString();
+        String key = new StringBuilder().append(IConstant.REGISTER_UUID).append("=").append(uuid).toString();
 
         redisTemplate.opsForValue().set(key, username, 15, TimeUnit.MINUTES);
 
@@ -45,7 +45,7 @@ public class RegisterController implements IRegisterConstant {
     @RequestMapping("delete/uuid/{uuid}")
     public ResultBean deleteByKey(@PathVariable String uuid) {
 
-        String key = new StringBuilder().append(IRegisterConstant.REGISTER_UUID).append("=").append(uuid).toString();
+        String key = new StringBuilder().append(IConstant.REGISTER_UUID).append("=").append(uuid).toString();
 
         String email = redisTemplate.opsForValue().get(key);
         //如果查无此key
@@ -70,7 +70,7 @@ public class RegisterController implements IRegisterConstant {
     @RequestMapping("set/sms/{phoneNum}/{code}")
     public ResultBean setSMS(@PathVariable String phoneNum, @PathVariable String code) {
 
-        String key = new StringBuilder().append(IRegisterConstant.REGISTER_SMS).append("=").append(phoneNum).toString();
+        String key = new StringBuilder().append(IConstant.REGISTER_SMS).append("=").append(phoneNum).toString();
 
         redisTemplate.opsForValue().set(key, code, 5, TimeUnit.MINUTES);
 
@@ -86,7 +86,7 @@ public class RegisterController implements IRegisterConstant {
      */
     @RequestMapping("verify/sms/{phoneNum}/{code}")
     public ResultBean verifySMS(@PathVariable String phoneNum, @PathVariable String code) {
-        String key = new StringBuilder().append(IRegisterConstant.REGISTER_SMS).append("=").append(phoneNum).toString();
+        String key = new StringBuilder().append(IConstant.REGISTER_SMS).append("=").append(phoneNum).toString();
         String value = redisTemplate.opsForValue().get(key);
         if (code != null && !code.isEmpty() && code.equals(value)) {
             Boolean delete = redisTemplate.delete(key);

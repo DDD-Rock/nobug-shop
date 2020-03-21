@@ -1,7 +1,7 @@
 package com.nobug.service.fallback;
 
 import com.nobug.ResultBean;
-import com.nobug.UserDTO;
+import com.nobug.dto.UserDTO;
 import com.nobug.service.LoginCacheService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
 package com.nobug.service.impl;
 
 import com.nobug.ResultBean;
-import com.nobug.UserDTO;
+import com.nobug.dto.UserDTO;
 import com.nobug.service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;

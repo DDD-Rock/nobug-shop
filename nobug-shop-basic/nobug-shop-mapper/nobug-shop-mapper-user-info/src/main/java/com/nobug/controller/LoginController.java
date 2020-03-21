@@ -1,7 +1,7 @@
 package com.nobug.controller;
 
 import com.nobug.ResultBean;
-import com.nobug.UserDTO;
+import com.nobug.dto.UserDTO;
 import com.nobug.entity.TUser;
 import com.nobug.mapper.UserMapper;
 import org.springframework.beans.BeanUtils;

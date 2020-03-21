@@ -3,8 +3,8 @@ package com.nobug.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nobug.ResultBean;
-import com.nobug.UserDTO;
-import com.nobug.constant.IRegisterConstant;
+import com.nobug.dto.UserDTO;
+import com.nobug.constant.IConstant;
 import com.nobug.service.LoginCacheService;
 import com.nobug.service.LoginMapperService;
 import com.nobug.utils.StringUtils;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("login")
-public class LoginController implements IRegisterConstant {
+public class LoginController implements IConstant {
 
     @Resource
     private LoginMapperService loginMapperService;
