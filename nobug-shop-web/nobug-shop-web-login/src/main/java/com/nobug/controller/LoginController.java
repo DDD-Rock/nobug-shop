@@ -53,10 +53,12 @@ public class LoginController implements IRegisterConstant {
             }
             newRedisKeyFlag = true;
         }
+
         //数据库中没有此账号
         if (resultBean.getErrno() == 1) {
             return resultBean;
         }
+
         //2.校验密码
         /**此处大坑!,直接使用resultBean.getData()取出来的数据是LinkedHashMap，不能强转成userDTO对象！
          解决方案：使用jackson的ObjectMapper转换
@@ -65,6 +67,7 @@ public class LoginController implements IRegisterConstant {
         ObjectMapper objectMapper = new ObjectMapper();
         UserDTO userDTO = objectMapper.convertValue(data, new TypeReference<UserDTO>() {
         });
+
 
 
         //判断密码是否一致
