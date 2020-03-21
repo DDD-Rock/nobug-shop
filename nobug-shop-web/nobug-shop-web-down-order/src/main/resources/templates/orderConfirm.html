@@ -54,9 +54,9 @@
 				</div>
 
 				<div class="search-bar pr">
-					<a name="index_none_header_sysc" href="#"></a>
+					<a name="index_search" href="#"></a>
 					<form>
-						<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
+						<input id="searchInput" name="index_search" type="text" placeholder="搜索" autocomplete="off">
 						<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
 					</form>
 				</div>
@@ -158,11 +158,11 @@
 					<div class="logistics">
 						<h3>选择物流方式</h3>
 						<ul class="op_express_delivery_hot">
-							<li data-value="yuantong" class="OP_LOG_BTN  "><i class="c-gap-right" style="background-position:0px -468px"></i>圆通<span></span></li>
-							<li data-value="shentong" class="OP_LOG_BTN  "><i class="c-gap-right" style="background-position:0px -1008px"></i>申通<span></span></li>
-							<li data-value="yunda" class="OP_LOG_BTN  "><i class="c-gap-right" style="background-position:0px -576px"></i>韵达<span></span></li>
-							<li data-value="zhongtong" class="OP_LOG_BTN op_express_delivery_hot_last "><i class="c-gap-right" style="background-position:0px -324px"></i>中通<span></span></li>
-							<li data-value="shunfeng" class="OP_LOG_BTN  op_express_delivery_hot_bottom"><i class="c-gap-right" style="background-position:0px -180px"></i>顺丰<span></span></li>
+							<li data-value="yuantong" class="OP_LOG_BTN " value="圆通"><i class="c-gap-right" style="background-position:0px -468px"></i>圆通<span></span></li>
+							<li data-value="shentong" class="OP_LOG_BTN  " value="申通"><i class="c-gap-right" style="background-position:0px -1008px"></i>申通<span></span></li>
+							<li data-value="yunda" class="OP_LOG_BTN  " value="韵达"><i class="c-gap-right" style="background-position:0px -576px"></i>韵达<span></span></li>
+							<li data-value="zhongtong" class="OP_LOG_BTN op_express_delivery_hot_last " value="中通"><i class="c-gap-right" style="background-position:0px -324px"></i>中通<span></span></li>
+							<li data-value="shunfeng" class="OP_LOG_BTN  op_express_delivery_hot_bottom" value="顺丰"><i class="c-gap-right" style="background-position:0px -180px"></i>顺丰<span></span></li>
 						</ul>
 					</div>
 					<div class="clear"></div>
@@ -292,6 +292,7 @@
 														<span class="sku-line">包装：两支手袋装（送彩带）</span>
 													</div>
 												</li>
+
 												<li class="td td-price">
 													<div class="item-price price-promo-promo">
 														<div class="price-content">
@@ -421,7 +422,7 @@
 
 											<p class="buy-footer-address">
 												<span class="buy-line-title buy-line-title-type">寄送至：</span>
-												<span class="buy--address-detail1 ">
+												<span class="buy--address-detail ">
 								   <span class="province">湖北</span>省
 												<span class="city">武汉</span>市
 												<span class="dist">洪山</span>区
@@ -431,7 +432,7 @@
 											</p>
 											<p class="buy-footer-address">
 												<span class="buy-line-title">收货人：</span>
-												<span class="buy-address-detail1">
+												<span class="buy-address-detail">
                                          <span class="buy-user">艾迪 </span>
 												<span class="buy-phone">15871145629</span>
 												</span>
@@ -567,7 +568,31 @@
 
 			}
 
+
+
+// 			$(document).ready(function(){
+// //根据ul的id来获取下面所有的li元素 并且为每个li配置点击事件
+// 				$(".op_express_delivery_hot li").click(function(){
+// //获取选中的li里面的值
+// 					var v=$(this).text();
+// //把值放在span里面，显示
+// 					$("#tresult").text(v);
+// 				})
+// 			})
+
+
+			$(".user-addresslist").click(function () {
+
+				var value = $(".user-addresslist").text();
+				alert(value);
+
+			});
+
+
+
+
 			function submitprovince(){
+
 
 				$.ajax({
 					url:'/down/order',
