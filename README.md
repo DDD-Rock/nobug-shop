@@ -41,6 +41,7 @@ web:
     search web 7778 
     login web 8082
     down order web 7780
+    index web 8080
    
 mapper:
     user info mapper 8100
@@ -48,6 +49,7 @@ mapper:
 cache:
     redis register 6301
     redis login 6302
+    redis product 6303
 
 祝各位好运，肝就完了！
 
