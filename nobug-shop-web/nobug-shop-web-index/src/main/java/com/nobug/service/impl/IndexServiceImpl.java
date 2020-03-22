@@ -1,6 +1,8 @@
 package com.nobug.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nobug.ResultBean;
 import com.nobug.constant.IConstant;
@@ -33,7 +35,6 @@ public class IndexServiceImpl implements IIndexService, IConstant {
 
         if (cacheResultBean.getErrno() == 1) {
             //redis中没取到
-//        ResultBean resultBean = indexMapperService.getProductType();
             //开启分布式锁,防止缓存穿透
             String uuid = UUID.randomUUID().toString();
             ResultBean lockBean = indexCacheService.setnx(REDIS_INDEX_GUIDE_LOCK, uuid);
@@ -80,13 +81,17 @@ public class IndexServiceImpl implements IIndexService, IConstant {
         }
 
         //取到了数据(json字符串)
-        String data = (String) cacheResultBean.getData();
+        String data = cacheResultBean.getMessage();
         //用jackson转换
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        List<ProductTypeDTO> result = objectMapper.convertValue(data, new TypeReference<List<ProductTypeDTO>>() {
-//        });
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            List<ProductTypeDTO> result = objectMapper.readValue(data, new TypeReference<List<ProductTypeDTO>>() {
+            });
+        return ResultBean.success(result);
+        } catch (JsonProcessingException e) {
+            return ResultBean.error("服务器出现了一点问题,请联系管理员.");
 
-        return ResultBean.success(data);
+        }
 
     }
 }

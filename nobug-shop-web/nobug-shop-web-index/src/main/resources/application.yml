@@ -12,7 +12,7 @@ eureka:
 
 feign:
   hystrix:
-    enabled: true
+    enabled: false
   okhttp:
     enabled: true
 
