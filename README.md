@@ -45,11 +45,13 @@ web:
    
 mapper:
     user info mapper 8100
+    product mapper 8101
 
 cache:
     redis register 6301
     redis login 6302
     redis product 6303
+    redis cart 6304
 
 祝各位好运，肝就完了！
 
