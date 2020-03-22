@@ -5,16 +5,23 @@ import com.nobug.ResultBean;
 import com.nobug.bean.Address;
 import com.nobug.bean.CartInfo;
 import com.nobug.bean.TProduct;
+import com.nobug.constant.IConstant;
+import com.nobug.dto.TProductDTO;
+import com.nobug.dto.UserDTO;
 import com.nobug.utils.StringUtils;
+import com.nobug.vo.CartItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 
@@ -35,11 +42,16 @@ public class DownOrderController {
         return "orderConfirm";
     }
 
-    //搜索
-    @RequestMapping("/order/orderConfirm1")
-    public String search(String index_search,Model model){
+    /**
+     * 搜索
+     * @param searchInput
+     * @param model
+     * @return
+     */
+    @RequestMapping("/searchInput")
+    public String search(@RequestParam String searchInput, Model model){
 
-        String url = "http://nobug-shop-service-search/solr";
+        String url = "http://nobug-shop-service-search/Keyword?keyWord="+searchInput;
 
         ResultBean bean = restTemplate.getForObject(url, ResultBean.class);
 
@@ -54,8 +66,9 @@ public class DownOrderController {
      * 点击 创建订单 按钮
      * @return
      * @throws Exception
+     * String user_cart_key = StringUtils.getRedisKey(REDIS_CART_UUID, user_id);
      */
-    @RequestMapping("//down/order")
+    @RequestMapping("/down/order")
     public String downOrder(String addrInfo, HttpServletRequest request, Model model) throws Exception{
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -65,10 +78,23 @@ public class DownOrderController {
 
         String uuid = null;
 
+        //获取cookie中的用户的uuid
+        Cookie[] cookies = request.getCookies();
+        for (Cookie c:cookies) {
+
+            if(c.getName() == IConstant.REDIS_USER_KEY){
+                uuid = c.getValue();
+            }
+        }
+
 
         //判断用户登录状态
-        String userKey = (String)redisTemplate.opsForValue().get("REDIS_USER_KEY");
-        if(userKey == null){
+        String userKey = StringUtils.getRedisKey(IConstant.REDIS_USER_KEY,uuid);
+
+        //获取用户值
+        Object o = redisTemplate.opsForValue().get(userKey);
+
+        if(o == null){
 
             return "用户未登录";
         }
@@ -76,23 +102,51 @@ public class DownOrderController {
         //已登录状态
 
 
-        //获取cookie中的用户的uuid
-        Cookie[] cookies = request.getCookies();
-        for (Cookie c:cookies) {
+        // 强转成一个user对象
+        UserDTO userDTO=(UserDTO )o;
 
-            if(c.getName() == "REDIS_USER_KEY"){
-                uuid = c.getValue();
-            }
-        }
+        //用户id
+        Integer id = userDTO.getId();
 
 
         //获取购物车redis中的key
-        String redisKey = StringUtils.getRedisKey("REDIS_USER_CART_UID", uuid);
+        String redisKey = StringUtils.getRedisKey(IConstant.REDIS_CART_UUID, id.toString());
         //获取购物车中的值
-        Object userCartUid = redisTemplate.opsForValue().get("REDIS_USER_CART_UID");
+        Object userCart = redisTemplate.opsForValue().get(redisKey);
+
+        if(userCart == null){
+
+            return "购物车中没有商品，下单失败";
+
+        }
+
+        //强转成List<CartItem>
+        List<CartItem>  userCarts = (List<CartItem>)(userCart);
+
+        //遍历
+        for (CartItem cart: userCarts) {
+
+            Integer pid = cart.getPid();
+            //获取产品id的键
+            String productId = StringUtils.getRedisKey(IConstant.REDIS_PRODUCT_ID, pid.toString());
+
+            //获取指定的产品
+            TProductDTO product = (TProductDTO) redisTemplate.opsForValue().get(productId);
+            //获取指定产品的价格
+            BigDecimal price = product.getPrice();
+            // 获取指定商品的数量
+            Integer count = cart.getCount();
+            //商品总价
+            //讲数量转换成BigDecimal类型
+            BigDecimal bgCount = new BigDecimal(count);
+            BigDecimal totalPrice = price.multiply(bgCount);
+
+        }
+
+
 
         //将购物车中的值封装到list集合中
-        List<TProduct> products = objectMapper.readValue((byte[]) userCartUid, List.class);
+        List<TProduct> products = objectMapper.readValue((byte[]) userCart, List.class);
 
         //获取地址信息
         Address addr = objectMapper.readValue(addrInfo, Address.class);

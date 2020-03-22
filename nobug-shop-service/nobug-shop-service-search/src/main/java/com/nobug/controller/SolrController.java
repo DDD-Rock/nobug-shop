@@ -24,6 +24,11 @@ public class SolrController {
 
     }
 
+    /**
+     * @RequestParam 不加就会查不到结果
+     * @param keyWord
+     * @return
+     */
     @RequestMapping("/Keyword")
     @ResponseBody
     public ResultBean searchByKeyword(@RequestParam String keyWord){

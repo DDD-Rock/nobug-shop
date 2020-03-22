@@ -18,6 +18,7 @@ public class SearchController {
 
 
 
+    //添加数据到solr库
     @RequestMapping("/search/solr")
     @ResponseBody
     public String insertSolr(){
