@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nobug.ResultBean;
 import com.nobug.dto.UserDTO;
 import com.nobug.constant.IConstant;
+import com.nobug.service.CartCacheService;
 import com.nobug.service.LoginCacheService;
 import com.nobug.service.LoginMapperService;
 import com.nobug.utils.StringUtils;
@@ -24,6 +25,9 @@ public class LoginController implements IConstant {
 
     @Resource
     private LoginCacheService loginCacheService;
+
+    @Resource
+    private CartCacheService cartCacheService;
 
 
     @RequestMapping(path = "user")
@@ -97,6 +101,11 @@ public class LoginController implements IConstant {
             cookie.setPath("/");
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
+        }
+
+        //合并购物车
+        if (!uuid.isEmpty()||!"".equals(uuid)){
+            cartCacheService.merge(uuid,userDTO.getId().toString());
         }
 
         return ResultBean.success("登录成功");

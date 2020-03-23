@@ -11,6 +11,7 @@ import com.nobug.service.IProductService;
 import com.nobug.utils.StringUtils;
 import com.nobug.vo.CartItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -40,23 +41,26 @@ public class CartServiceImpl implements ICartService, IConstant {
      * @return
      */
     @Override
-    public ResultBean addProductToCart(String cart_uuid, Integer productId, Integer count) {
+    public ResultBean addProductToCart(@DefaultValue("") String cart_uuid, Integer productId, Integer count) {
 
         //先试取原有的购物车
         String redisKey = StringUtils.getRedisKey(REDIS_CART_UUID, cart_uuid);
-        List<CartItem> cartItemList = (List<CartItem>) redisTemplate.opsForValue().get(redisKey);
+        Object o = redisTemplate.opsForValue().get(redisKey);
         //将待传入的商品对象包装一下
         CartItem cartItem = new CartItem();
         cartItem.setPid(productId);
         cartItem.setCount(count);
         cartItem.setUpdateTime(new Date());
+
+        List<CartItem> cartItemList =null;
         //判断之前是否有购物车
-        if (cartItemList == null) {
-            //之前没有购物车
+        if (o == null) {
+            // todo 之前没有购物车
+            cart_uuid = UUID.randomUUID().toString();
             cartItemList = new ArrayList<>();
             cartItemList.add(cartItem);
         } else {
-
+            cartItemList = (List<CartItem>) o;
             Boolean flag = false;    //是否已经新增完毕
 
             //之前有购物车
@@ -79,6 +83,7 @@ public class CartServiceImpl implements ICartService, IConstant {
         }
 
         //购物车修改完毕,存回Redis
+        redisKey = StringUtils.getRedisKey(REDIS_CART_UUID, cart_uuid);
         redisTemplate.opsForValue().set(redisKey, cartItemList);
 
         return ResultBean.success(cartItemList);
@@ -177,14 +182,14 @@ public class CartServiceImpl implements ICartService, IConstant {
             if (o == null) {
                 //没有查到,从数据库取
                 ResultBean resultBean = productService.getById(cartItem.getPid());
-                if (resultBean.getErrno()==0){
+                if (resultBean.getErrno() == 0) {
                     // TODO 可能强转会出错,未测试
                     ObjectMapper objectMapper = new ObjectMapper();
                     TProductDTO productDTO = objectMapper.convertValue(resultBean.getData(), new TypeReference<TProductDTO>() {
                     });
 
                     //存到redis中一份,下次直接取
-                    redisTemplate.opsForValue().set(key,productDTO);
+                    redisTemplate.opsForValue().set(key, productDTO);
                     TProductCartDTO productCartDTO = new TProductCartDTO();
                     productCartDTO.setProduct(productDTO);
                     productCartDTO.setCount(cartItem.getCount());
@@ -192,14 +197,14 @@ public class CartServiceImpl implements ICartService, IConstant {
                     //存到结果集中
                     products.add(productCartDTO);
 
-                }else{
+                } else {
                     return ResultBean.error("购物车中的商品仓库中已经不存在.");
                 }
 
 
-            }else{
+            } else {
                 //redis取到数据
-                TProductDTO productDTO=(TProductDTO)o;
+                TProductDTO productDTO = (TProductDTO) o;
                 TProductCartDTO productCartDTO = new TProductCartDTO();
                 productCartDTO.setProduct(productDTO);
                 productCartDTO.setCount(cartItem.getCount());
@@ -218,11 +223,11 @@ public class CartServiceImpl implements ICartService, IConstant {
 //        });
 
         //lambda写法
-        Collections.sort(products,(o1, o2) -> (int) (o1.getUpdateTime().getTime()-o2.getUpdateTime().getTime()));
+        Collections.sort(products, (o1, o2) -> (int) (o1.getUpdateTime().getTime() - o2.getUpdateTime().getTime()));
 
-        //将含有商品细节的购物车存入Redis
+        //将含有商品细节的购物车存入Redis(用于一键下单)
         String productCartKey = StringUtils.getRedisKey(REDIS_USER_PRODUCT_CART, id);
-        redisTemplate.opsForValue().set(productCartKey,products);
+        redisTemplate.opsForValue().set(productCartKey, products);
 
 
         return ResultBean.success(products);
