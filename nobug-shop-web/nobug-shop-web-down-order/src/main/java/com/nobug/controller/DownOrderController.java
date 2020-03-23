@@ -7,6 +7,7 @@ import com.nobug.bean.CartInfo;
 import com.nobug.bean.Order;
 import com.nobug.bean.TProduct;
 import com.nobug.constant.IConstant;
+import com.nobug.dto.AddressDTO;
 import com.nobug.dto.TProductDTO;
 import com.nobug.dto.UserDTO;
 import com.nobug.utils.StringUtils;
@@ -72,7 +73,7 @@ public class DownOrderController {
      * String user_cart_key = StringUtils.getRedisKey(REDIS_CART_UUID, user_id);
      */
     @RequestMapping("/down/order")
-    public String downOrder(String addrInfo, HttpServletRequest request, Model model) throws Exception{
+    public String downOrder(String addrInfo, HttpServletRequest request) throws Exception{
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -124,7 +125,7 @@ public class DownOrderController {
         }
 
         //获取地址信息
-        Address addr = objectMapper.readValue(addrInfo, Address.class);
+        AddressDTO addr = objectMapper.readValue(addrInfo, AddressDTO.class);
 
         //强转成List<CartItem>
         List<CartItem>  userCarts = (List<CartItem>)(userCart);
@@ -162,11 +163,6 @@ public class DownOrderController {
             amount= amount.add(totalPrice);
 
 
-
-
-
-
-
             //订单编号
             order.setAccount(orderNumber);
 
@@ -189,14 +185,7 @@ public class DownOrderController {
         order.setExpressName(addr.getShunfeng());
         //将订单数据放到redis中
         redisTemplate.opsForValue().set(IConstant.REDIS_ORDER_KEY,order);
-
-
-
-
-
-
-
-
+        redisTemplate.opsForValue().set(IConstant.REDIS_ORDER_ADDR,addr);
 
 //        //将购物车中的值封装到list集合中
 //        List<TProduct> products = objectMapper.readValue((byte[]) userCart, List.class);

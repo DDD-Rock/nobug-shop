@@ -17,4 +17,6 @@ public interface IConstant {
     String REDIS_PRODUCT_ID = "redis_product_id"; //购物车订单id的key
 
     String  REDIS_ORDER_KEY = "redis_order_key";  //订单key
+
+    String REDIS_ORDER_ADDR = "redis_order_key";  //地址信息
 }
