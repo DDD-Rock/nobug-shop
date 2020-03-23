@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nobug.ResultBean;
 import com.nobug.bean.Address;
 import com.nobug.bean.CartInfo;
+import com.nobug.bean.Order;
 import com.nobug.bean.TProduct;
 import com.nobug.constant.IConstant;
 import com.nobug.dto.TProductDTO;
@@ -21,8 +22,10 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 
 @Controller
@@ -35,7 +38,7 @@ public class DownOrderController {
     private RestTemplate restTemplate;
 
 
-    //跳转到订单页面
+    //跳转到下单页面
 
     @RequestMapping("/order/orderConfirm")
     public String orderConfirm() {
@@ -120,8 +123,23 @@ public class DownOrderController {
 
         }
 
+        //获取地址信息
+        Address addr = objectMapper.readValue(addrInfo, Address.class);
+
         //强转成List<CartItem>
         List<CartItem>  userCarts = (List<CartItem>)(userCart);
+
+        //创建订单对象
+        Order order = new Order();
+
+        //生成订单编号
+        UUID uuid1 = UUID.randomUUID();
+
+        String orderNumber = "xiadan"+uuid1+id;
+
+        //订单总价
+        BigDecimal amount = null;
+
 
         //遍历
         for (CartItem cart: userCarts) {
@@ -140,27 +158,60 @@ public class DownOrderController {
             //讲数量转换成BigDecimal类型
             BigDecimal bgCount = new BigDecimal(count);
             BigDecimal totalPrice = price.multiply(bgCount);
+            //订单总金额
+            amount= amount.add(totalPrice);
+
+
+
+
+
+
+
+            //订单编号
+            order.setAccount(orderNumber);
+
+            //设置日期格式
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            //生成订单时间
+            order.setCreatedate(df.format(new Date()));
+            //商品总金额
+            order.setPtotal(totalPrice.toString());
+            //商品总数量
+            order.setQuantity(count);
 
         }
 
+        //订单总金额
+        order.setAmount(amount.toString());
+        //物流号
+        order.setExpressNo("wuliu"+uuid1+id);
+        //配送方式
+        order.setExpressName(addr.getShunfeng());
+        //将订单数据放到redis中
+        redisTemplate.opsForValue().set(IConstant.REDIS_ORDER_KEY,order);
 
 
-        //将购物车中的值封装到list集合中
-        List<TProduct> products = objectMapper.readValue((byte[]) userCart, List.class);
-
-        //获取地址信息
-        Address addr = objectMapper.readValue(addrInfo, Address.class);
-
-        //组装订单
-        CartInfo cartInfo = new CartInfo();
-        cartInfo.setProductList(products);
-        cartInfo.setAddress(addr);
-
-        //将数据存放到model中
-        model.addAttribute("CartInfo",cartInfo);
 
 
-        return "success";
+
+
+
+
+
+//        //将购物车中的值封装到list集合中
+//        List<TProduct> products = objectMapper.readValue((byte[]) userCart, List.class);
+//
+//
+//        //组装订单
+//        CartInfo cartInfo = new CartInfo();
+//        cartInfo.setProductList(products);
+//        cartInfo.setAddress(addr);
+//
+//        //将数据存放到model中
+//        model.addAttribute("CartInfo",cartInfo);
+
+
+        return "下单成功";
     }
 
 
