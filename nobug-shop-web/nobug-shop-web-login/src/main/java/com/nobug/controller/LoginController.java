@@ -64,7 +64,7 @@ public class LoginController implements IConstant {
         }
 
         //2.校验密码
-        /**此处大坑!,直接使用resultBean.getData()取出来的数据是LinkedHashMap，不能强转成userDTO对象！
+        /**直接使用resultBean.getData()取出来的数据是LinkedHashMap，不能强转成userDTO对象！
          解决方案：使用jackson的ObjectMapper转换
          */
         Object data = resultBean.getData();
