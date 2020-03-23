@@ -5,6 +5,7 @@ import com.nobug.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -37,9 +38,9 @@ public class CartController {
      * @param user_id
      * @return
      */
-    @RequestMapping("merge/{uuid}/{user_id}")
-    public ResultBean merge(@PathVariable String uuid,
-                            @PathVariable String user_id){
+    @RequestMapping("merge")
+    public ResultBean merge(@RequestParam String uuid,
+                            @RequestParam String user_id){
         return  cartService.MergeCartInfo(uuid,user_id);
     }
 
