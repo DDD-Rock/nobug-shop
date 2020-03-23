@@ -3,7 +3,7 @@ package com.nobug.impl;
 
 import com.nobug.ISearchService;
 import com.nobug.ResultBean;
-import entity.TProductSearchDTO;
+import com.nobug.entity.TProductSearchDTO;
 import com.nobug.mapper.TProductSearchDTOMapper;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;

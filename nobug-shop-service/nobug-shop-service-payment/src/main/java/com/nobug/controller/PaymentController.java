@@ -7,11 +7,23 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.google.gson.Gson;
+import com.nobug.entity.Message;
 import com.nobug.entity.TOrder;
+import com.nobug.entity.TOrderpay;
+import com.nobug.entity.TOrdership;
+import com.nobug.service.MessageService;
+import com.nobug.service.TOrderpayService;
+import com.nobug.service.TOrdershipService;
+import com.nobug.service.impl.AnnotationQuartz;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import tk.mybatis.mapper.annotation.Order;
+
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,16 +46,38 @@ public class PaymentController {
 
 
     /**
-     * 通过主键查询单条数据
+     * 支付服务，服务成功返回success页面
      *
-     * @param
-     * @return 单条数据
+     *
      */
 
+    @Resource
+    @LoadBalanced
+    private RestTemplate restTemplate;
+
+    private final static String Message_URI ="http://NOBUG-SHOP-SERVICE-MQ/mq/";
+
+    @Resource
+    private TOrdershipService tOrdershipService;
+
+
+    //初始化
+    Message message = new Message();
+
+
+
+
+
     @RequestMapping("success")
-    public String getSuccess(HttpServletRequest request, Model model) {
+    public String getSuccess(HttpServletRequest request, Model model, Integer orderId) {
         String total_amount = request.getParameter("total_amount");
+        String out_trade_no = request.getParameter("out_trade_no");
+
+        TOrdership tOrdership = tOrdershipService.queryByOrderId(orderId);
         model.addAttribute("total_amount",total_amount);
+        model.addAttribute("orderId",out_trade_no);
+        model.addAttribute("tOrdership",tOrdership);
+
         return "success";
     }
 
@@ -56,6 +90,12 @@ public class PaymentController {
     public void doPay(HttpServletRequest httpRequest,
                        HttpServletResponse httpResponse,String oid) throws ServletException, IOException {
         TOrder order = (TOrder) httpRequest.getAttribute("order");
+
+        //初始化消息
+        message.setId(order.getId());
+        message.setStatus(0);
+        restTemplate.getForObject(Message_URI +"rec"+message, Message.class,message);
+
         AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipaydev.com/gateway.do",
                 "2016101900721641",
                 "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC5XIR0Vg4LXI0LlvwZqavnD9l+DZJA3Vcy9lHatcxSjpkMaqpzusgZXJwUF4F0BWxvI7QhWk1exjZ48Llf5b5vbRVX1wUeSiO3K6+iVli5mlrbeE3wj6kdke7aOFKWeBSGh/G5UiDNhXfjQ/s5xYyDteBXBFozAo1eOhlNCl6vFPP4HP4Um2MapQFxQ9NPVov9iurw2UosIz6soBcNxBhgf3cLfPmW+4Eo/d/MS1Eyz8xX5MUFLGVWbFdb+jUZYDeTr+h5iA1wm9wk2dzFXM/YRyY02oXt0W1i1H5EL4SOsxe1kVa422HdAmylVuFdY55xzDvPdbI1yNxAoxBRN5EJAgMBAAECggEBAJJt38T3ZkjbaCDLuYOcYcw63RmTJwJO2F/N7oPUMgDV3VnNubGK0CAY5MOKfh1lW2/AyL/AUnaYJtgLcqWrHHFxvvaRSd3Pu78rp6eahqS4pyXRN+Dd3D8b1ZBWBggP/Eb6hZ5cnsU8tqS2Q3Qz9vjlaL/VFFxPm9XgF7SgiIPNtIaQj2xhl6OOcwM2sfkfKvzqhzIoXPyfMMXzGoIuT2yZP9yWMScAYWgHTpC9MsWPgKHq34+uuCAV0HROhqZbbNXUpVIPw/v1F1IOXIR4Rj+cbE2OOGASN+2iaNbmHa4fxhGELUWSqx+ikqofDOyk98IMK+4DCoVOtpAAcLGijgECgYEA6lTsowqsxFnFIBsOwmkeC0Lp8DIEeU7LzeJ7p1HxFc7bgT6ePQ1TmMfI73le+ZexLtyGD/mTsXcXxYkUqR6OnW50vFriSDX/+cIvwf9dnFPLjUC3sfRpYe8jbcLtdVHR9T6U9+AhobVR+Sw0Supel+79DCoUr1uxm8PHOPZ0ELECgYEAyoBfVzyPuGGgz90XgqEvrkyrcSi6/Rr97v51XrelluWysXlzpOpoRs2DY6zM4E4RqzioYHUgSfEaI8NGufEd5NMpHkfhprYVh2f0+atKkNDWIGQDd/2MFQaUNuO5JW2/CN1FmTSyyPIAJjFtec+ObanafW0XyVpAuqtOCrru29kCgYEA534kE+GM0aC5a8EvMIG163wcLWzMHKbqEaenbqE1oMys7p5Upo2Ow0TCzUjCuaHQqTGzwv5UmKHFOyDz5yrHyuD+s8C5AItQKIVctrK24KOrWAzSLBv/K3+aKWnDOf4tg7BibAngT6cXpyezNTsZXdD77VN5Ac98wxuCqVRXTtECgYEAg81KQN2KLdhdcu3Uf5GqFyiP7fc0vcjzvrqgaiXeAXk/9YO3YX+wn2TkP9wY/WXS2j7mWOHjQj1LZjuTrTLi4i0OdkcS+A9Ls/ZV3KtAvUEwHaT7HP5KTuUZUyClQVdNH9fllPJX67KXpkRFnSMa8QW80CZRdRzpRJZ7FUDWdwECgYAa1dGElBkGDuoBT78kr9VsxQTjQjY6tqb011JuyD+2YBAQwuR4XLfNzWmFOzaafwXt6hdHvEQq5dFebjiNS9FuEv2PsnuxLPiqxeDTZ/ZaCa41AGILpkip9JUUnld7DtIU0jayhvX1NtCcE6w9gWRSx5KMffxncduwifYhFW/uIA==",
@@ -67,15 +107,15 @@ public class PaymentController {
         alipayRequest.setReturnUrl(" http://j6xt27.natappfree.cc/success");
         alipayRequest.setNotifyUrl(" http://j6xt27.natappfree.cc/notifyUrl");//在公共参数中设置回跳和通知地址
         alipayRequest.setBizContent("{" +
-//                "    \"out_trade_no\":\"" + order.getId() + "\"," +
-                "    \"out_trade_no\":\"" + "20200313105750007"+ "\"," +
+               "    \"out_trade_no\":\"" + order.getId() + "\"," +
+//                "    \"out_trade_no\":\"" + "20200313105750007"+ "\"," +
                 "    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," +
-//                "    \"total_amount\":"+order.getAmount()+","+
-                "    \"total_amount\":"+"6"+","+
-//                "    \"subject\":\""+order.getRemark()+"\"," +
-                "    \"subject\":\""+"教育培训"+"\"," +
-//                "    \"body\":\""+order.getRemark()+"\"," +
-                "    \"body\":\""+"qf"+"\"," +
+               "    \"total_amount\":"+order.getAmount()+","+
+ //               "    \"total_amount\":"+"6"+","+
+             "    \"subject\":\""+order.getRemark()+"\"," +
+ //               "    \"subject\":\""+"教育培训"+"\"," +
+                "    \"body\":\""+order.getRemark()+"\"," +
+//                "    \"body\":\""+"qf"+"\"," +
                 "    \"passback_params\":\"merchantBizType%3d3C%26merchantBizNo%3d2016010101111\"," +
                 "    \"extend_params\":{" +
                 "    \"sys_service_provider_id\":\"2088511833207846\"" +
@@ -96,11 +136,14 @@ public class PaymentController {
     @RequestMapping("notifyUrl")
     @ResponseBody
     public void notifyUrl(HttpServletRequest request, HttpServletResponse response) throws AlipayApiException, IOException {
+
+
+
         //获取到请求中所有的键值对
-        Map<String, String[]> parameterMapap = request.getParameterMap();
+        Map<String, String[]> parameterMap = request.getParameterMap();
         //需要将map中的String[]==>String
         Map<String, String> paramsMap = new HashMap<>(); //将异步通知中收到的所有参数都存放到 map 中
-        Set<Map.Entry<String, String[]>> entries = parameterMapap.entrySet();
+        Set<Map.Entry<String, String[]>> entries = parameterMap.entrySet();
         for (Map.Entry<String, String[]> entry : entries) {
             String[] values = entry.getValue();
             StringBuffer sb = new StringBuffer();
@@ -132,12 +175,22 @@ public class PaymentController {
             jsonMap.put("alipay_trade_page_pay_response",map);
             jsonMap.put("sign","MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAljb6rHchsCb");
             TOrder order = (TOrder) request.getAttribute("order");
+
+
+
             //验签成功
-            if (paramsMap.get("out_trade_no").equals("20200313105750007") &&
-                    //paramsMap.get("total_amount").equals(order.getAmount())) {
-                    paramsMap.get("total_amount").equals("6")) {
-                System.out.println("金额正确，验签成功");//要去数据库中改变订单状态
+            if (paramsMap.get("out_trade_no").equals(order.getId()) &&
+                    paramsMap.get("total_amount").equals(order.getAmount())) {
+                    //paramsMap.get("total_amount").equals("6")) {
+                log.info("金额正确，验签成功");
                 response.getWriter().write(gson.toJson(jsonMap));
+                //验签成功向发送消息
+                //使用mq的方式解决分布式事务,向mq服务发送send消息
+
+                message.setId(order.getId());
+                message.setStatus(1);
+                restTemplate.getForObject(Message_URI +"rec"+message, Message.class,message);
+
             }
             //验签失败
             map.put("msg","failure");

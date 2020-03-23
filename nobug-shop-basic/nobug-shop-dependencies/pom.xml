@@ -41,7 +41,7 @@
             </dependency>
             <dependency>
                 <groupId>com.nobug</groupId>
-                <artifactId>nobug-shop-entity</artifactId>
+                <artifactId>nobug-shop-com.nobug.entity</artifactId>
                 <version>${parent.version}</version>
             </dependency>
 

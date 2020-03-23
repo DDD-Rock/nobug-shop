@@ -1,6 +1,6 @@
 package com.nobug.mapper;
 
-import entity.TProductSearchDTO;
+import com.nobug.entity.TProductSearchDTO;
 
 import java.util.List;
 
