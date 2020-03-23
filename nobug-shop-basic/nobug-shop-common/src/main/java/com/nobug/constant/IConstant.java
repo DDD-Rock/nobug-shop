@@ -14,5 +14,7 @@ public interface IConstant {
 
     String REDIS_INDEX_GUIDE_LOCK = "redis_index_guide_lock"; //主页的商品列表查询锁
 
-    String REDIS_PRODUCT_ID = "redis_product_id";
+    String REDIS_PRODUCT_ID = "redis_product_id";   //redis中保存商品信息的key
+
+    String REDIS_USER_PRODUCT_CART="REDIS_USER_PRODUCT_CART";   //存放了商品细节的购物车key
 }

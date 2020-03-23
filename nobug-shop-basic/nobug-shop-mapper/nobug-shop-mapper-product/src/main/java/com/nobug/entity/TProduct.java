@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Table(name = "t_product")
 public class TProduct  implements Serializable {
 
+	@Id
 	private Integer pid;
 
 	private String pname;

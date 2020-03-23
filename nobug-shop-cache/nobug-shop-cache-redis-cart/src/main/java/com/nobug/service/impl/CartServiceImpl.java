@@ -1,16 +1,18 @@
 package com.nobug.service.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nobug.ResultBean;
 import com.nobug.constant.IConstant;
-import com.nobug.dto.ProductTypeDTO;
 import com.nobug.dto.TProductCartDTO;
+import com.nobug.dto.TProductDTO;
 import com.nobug.service.ICartService;
+import com.nobug.service.IProductService;
 import com.nobug.utils.StringUtils;
 import com.nobug.vo.CartItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CookieValue;
 
 import java.util.*;
 
@@ -24,6 +26,9 @@ public class CartServiceImpl implements ICartService, IConstant {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private IProductService productService;
 
 
     /**
@@ -158,20 +163,69 @@ public class CartServiceImpl implements ICartService, IConstant {
             return ResultBean.success("购物车空空如也");
         }
         List<CartItem> cartItemList = (List<CartItem>) object;
+
         //从redis查询信息,封装起来
         List<TProductCartDTO> products = new ArrayList<>();
+
+        //遍历
         for (CartItem cartItem : cartItemList) {
-            String key = StringUtils.getRedisKey(REDIS_PRODUCT_ID, id);
+            //组织商品键
+            String key = StringUtils.getRedisKey(REDIS_PRODUCT_ID, cartItem.getPid().toString());
+            //从Redis中获取商品对象
             Object o = redisTemplate.opsForValue().get(key);
             //判断redis中是否取到
-            if (o==null){
-                return
-            }
+            if (o == null) {
+                //没有查到,从数据库取
+                ResultBean resultBean = productService.getById(cartItem.getPid());
+                if (resultBean.getErrno()==0){
+                    // TODO 可能强转会出错,未测试
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    TProductDTO productDTO = objectMapper.convertValue(resultBean.getData(), new TypeReference<TProductDTO>() {
+                    });
 
+                    //存到redis中一份,下次直接取
+                    redisTemplate.opsForValue().set(key,productDTO);
+                    TProductCartDTO productCartDTO = new TProductCartDTO();
+                    productCartDTO.setProduct(productDTO);
+                    productCartDTO.setCount(cartItem.getCount());
+                    productCartDTO.setUpdateTime(cartItem.getUpdateTime());
+                    //存到结果集中
+                    products.add(productCartDTO);
+
+                }else{
+                    return ResultBean.error("购物车中的商品仓库中已经不存在.");
+                }
+
+
+            }else{
+                //redis取到数据
+                TProductDTO productDTO=(TProductDTO)o;
+                TProductCartDTO productCartDTO = new TProductCartDTO();
+                productCartDTO.setProduct(productDTO);
+                productCartDTO.setCount(cartItem.getCount());
+                productCartDTO.setUpdateTime(cartItem.getUpdateTime());
+
+                products.add(productCartDTO);
+            }
         }
 
+        //对商品进行排序(根据更新时间)
+//        Collections.sort(products, new Comparator<TProductCartDTO>() {
+//            @Override
+//            public int compare(TProductCartDTO o1, TProductCartDTO o2) {
+//                return (int) (o1.getUpdateTime().getTime()-o2.getUpdateTime().getTime());
+//            }
+//        });
 
-        return null;
+        //lambda写法
+        Collections.sort(products,(o1, o2) -> (int) (o1.getUpdateTime().getTime()-o2.getUpdateTime().getTime()));
+
+        //将含有商品细节的购物车存入Redis
+        String productCartKey = StringUtils.getRedisKey(REDIS_USER_PRODUCT_CART, id);
+        redisTemplate.opsForValue().set(productCartKey,products);
+
+
+        return ResultBean.success(products);
     }
 
     /**
