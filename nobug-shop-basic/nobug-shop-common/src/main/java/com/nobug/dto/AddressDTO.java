@@ -1,4 +1,4 @@
-package com.nobug.bean;
+package com.nobug.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address {
+public class AddressDTO {
 
 
     private String address;  //收件地址

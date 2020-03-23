@@ -57,7 +57,7 @@
 					<a name="index_search" href="#"></a>
 					<form>
 						<input id="searchInput" name="index_search" type="text" placeholder="搜索" autocomplete="off">
-						<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
+						<input th id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="button" th:onclick="search()">
 					</form>
 				</div>
 			</div>
@@ -79,14 +79,14 @@
 								<div class="address-left">
 									<div class="user DefaultAddr">
 
-										<span class="buy-address-detail">
+										<span class="buy-address-detail1">
                    <span class="buy-user">艾迪 </span>
 										<span class="buy-phone">15871145629</span>
 										</span>
 									</div>
 									<div class="default-address DefaultAddr">
 									<span class="buy-line-title buy-line-title-type">收货地址：</span>
-									<span class="buy--address-detail">
+									<span class="buy--address-detail1">
 								   <span class="province">湖北</span>省
 										<span class="city">武汉</span>市
 										<span class="dist">洪山</span>区
@@ -580,13 +580,16 @@
 // 				})
 // 			})
 
+			// var
+			//
+			// $(".user-addresslist").click(function () {
+			//
+			// 	var value = $(".user-addresslist").text();
+			// 	alert(value);
+			//
+			// });
 
-			$(".user-addresslist").click(function () {
 
-				var value = $(".user-addresslist").text();
-				alert(value);
-
-			});
 
 
 
@@ -601,6 +604,27 @@
 					data:{addrInfo:JSON.stringify(addrInfo)}
 				})
 			}
+
+			//搜索
+
+
+
+			function search() {
+
+				var name = $('#searchInput').val();
+
+
+
+				$.ajax({
+					url:'/searchInput',
+					type:"post",
+					dataType:"json",
+					data:{searchInput:name}
+				})
+
+			}
+
+
 
 
 
