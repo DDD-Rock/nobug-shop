@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nobug.dao.TOrdershipDao">
+
+    <resultMap type="com.nobug.entity.TOrdership" id="TOrdershipMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="orderid" column="orderid" jdbcType="VARCHAR"/>
+        <result property="shipname" column="shipname" jdbcType="VARCHAR"/>
+        <result property="shipaddress" column="shipaddress" jdbcType="VARCHAR"/>
+        <result property="provincecode" column="provinceCode" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="citycode" column="cityCode" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="areacode" column="areaCode" jdbcType="VARCHAR"/>
+        <result property="area" column="area" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="tel" column="tel" jdbcType="VARCHAR"/>
+        <result property="zip" column="zip" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryByOrderId" resultMap="TOrdershipMap">
+        select
+          id, orderid, shipname, shipaddress, provinceCode, province, cityCode, city, areaCode, area, phone, tel, zip, sex, remark
+        from myshop.t_ordership
+        where orderid = #{orderId}
+    </select>
+
+
+</mapper>

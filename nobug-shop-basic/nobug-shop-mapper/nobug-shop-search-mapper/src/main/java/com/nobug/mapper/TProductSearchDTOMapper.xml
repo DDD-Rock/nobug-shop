@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nobug.mapper.TProductSearchDTOMapper">
-    <resultMap id="BaseResultMap" type="entity.TProductSearchDTO">
+    <resultMap id="BaseResultMap" type="com.nobug.entity.TProductSearchDTO">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="t_product_name" jdbcType="VARCHAR" property="tProductName"/>
         <result column="t_product_sale_price" jdbcType="DECIMAL" property="tProductSalePrice"/>

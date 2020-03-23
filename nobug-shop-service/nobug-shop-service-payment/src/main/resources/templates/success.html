@@ -58,11 +58,14 @@
    <h2>您已成功付款</h2>
    <div class="successInfo">
      <ul>
-       <li>付款金额<em th:text="${total_amount}"></em></li>
+       <li>付款金额<em th:text="${total_amount}"></em>
+           订单编号<em  id="orderId" th:text="${orderId}"></em>
+       </li>
+
        <div class="user-info">
-         <p>收货人：艾迪</p>
-         <p>联系电话：15871145629</p>
-         <p>收货地址：湖北省 武汉市 武昌区 东湖路75号众环大厦</p>
+         <p>收货人：<em th:text="${tOrdership.shipname}"></em></p>
+         <p>联系电话：<em th:text="${tOrdership.phone}"></em></p>
+         <p>收货地址：<em th:text="${tOrdership.province}"></em> <em th:text="${tOrdership.city}"></em> <em th:text="${tOrdership.area}"></em> <em th:text="${tOrdership.shipaddress}"></em></p>
        </div>
              请认真核对您的收货信息，如有错误请联系客服
                                
@@ -102,4 +105,20 @@
 
 
 </body>
+
+<script>
+    var orderId = $("#orderId").val();
+    console.log(orderId);
+    function queryOrderInfo(orderId) {
+        $.ajax({
+            url:"/success",
+            type:"get",
+            dataType:"json",
+            data:{orderId:orderId},
+            success:function (data) {
+
+            }
+        })
+    }
+</script>
 </html>
